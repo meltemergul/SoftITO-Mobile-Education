@@ -1,0 +1,5 @@
+package com.softito.can_bagim
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
