@@ -19,7 +19,10 @@ class CsvParseResult {
 
 class CsvParser {
   CsvParseResult parse(String csvContent) {
-    final rows = csv.decode(csvContent);
+    final rows = const CsvToListConverter(
+      eol: '\n',
+      shouldParseNumbers: false,
+    ).convert(csvContent.replaceAll('\r\n', '\n'));
     final validRows = <Map<String, dynamic>>[];
     final errors = <CsvRowError>[];
 

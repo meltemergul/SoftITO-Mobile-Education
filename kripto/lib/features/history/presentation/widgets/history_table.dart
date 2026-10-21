@@ -32,7 +32,7 @@ class HistoryTable extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('İptal', style: TextStyle(color: AppColors.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.loss),
@@ -48,7 +48,7 @@ class HistoryTable extends ConsumerWidget {
                 );
               }
             },
-            child: const Text('SİL'),
+            child: Text('SİL'),
           ),
         ],
       ),
@@ -68,7 +68,7 @@ class HistoryTable extends ConsumerWidget {
         child: Center(
           child: Column(
             children: [
-              const Icon(Icons.history_outlined, color: AppColors.textMuted, size: 36),
+              Icon(Icons.history_outlined, color: AppColors.textMuted, size: 36),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 'Henüz geçmiş işlem bulunmuyor',
@@ -101,14 +101,14 @@ class HistoryTable extends ConsumerWidget {
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.borderDivider),
+          Divider(height: 1, color: AppColors.borderDivider),
 
           // Satırlar
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: transactions.length,
-            separatorBuilder: (_, _) => const Divider(height: 1, color: AppColors.borderDivider),
+            separatorBuilder: (_, _) => Divider(height: 1, color: AppColors.borderDivider),
             itemBuilder: (context, i) {
               final tx = transactions[i];
               final isBuy = tx.type == TransactionType.buy;
@@ -131,7 +131,7 @@ class HistoryTable extends ConsumerWidget {
                   color: AppColors.lossBg,
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: const Icon(Icons.delete_outline, color: AppColors.lossText),
+                  child: Icon(Icons.delete_outline, color: AppColors.lossText),
                 ),
                 confirmDismiss: (_) async {
                   _confirmDelete(context, ref, tx.id);

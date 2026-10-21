@@ -1,292 +1,154 @@
+# Kripto Portföy ve Kâr/Zarar Takip Uygulaması Tasarım Sistemi & Standartları
+
+Bu doküman, **Chronomind** mobil finans ve portföy analitiği uygulamasının tasarım sistemi token'larını, sayfa mimarisini, kullanıcı akışlarını, bileşen kütüphanesini ve frontend geliştirme standartlarını tanımlar.
+
 ---
-name: obsidian-precision-ui
-description: Kripto kâr/zarar ve portföy takibi uygulaması için "Obsidian Precision Financial" koyu tema tasarım sistemine göre Flutter arayüzü üretir veya düzenler. Dashboard, işlem formu, varlık dağılımı, geçmiş tablosu, giriş ve ayarlar ekranlarında renk, tipografi, boşluk, kart, rozet, form ve grafik kurallarını uygular. Bu projede ekran, widget, tema veya bileşen yazılırken kullan.
+
+## 1. Uygulama Vizyonu ve Genel Bakış
+**Chronomind**, bireysel ve kurumsal yatırımcılar için geliştirilmiş, borsa/cüzdan entegrasyonlu, gerçek zamanlı kâr/zarar (PnL), ortalama maliyet (DCA) ve piyasa analitiği sunan profesyonel düzeyde bir mobil fintech uygulamasıdır.
+
+- **Platform / Form Faktörü:** Mobil (iOS & Android uyumlu responsive viewport: ~390px - 430px)
+- **Tema:** **Saf Karanlık Mod (Dark Obsidian Precision)**:
+  - Yalnızca derin obsidyen (`#051424`), siber-finans neon turkuaz (`#06B6D4`) ve zümrüt yeşili (`#10B981`) aksanlar kullanılır.
+  - Açık tema (Light Mode) finansal veri netliği, OLED pil optimizasyonu ve terminal disiplini gereği kaldırılmış; saf karanlık mod standart hale getirilmiştir.
+- **Tasarım Dili:** Yüksek kontrastlı veri hiyerarşisi, okunabilir monospaced sayısal değerler, yumuşatılmış mikro-etkileşimli kartlar, sıfır piksel taşması (Zero-Overflow Responsive).
+
 ---
 
-# Obsidian Precision Financial: UI Skill
+## 2. Bilgi Mimarisi & Sayfa Hiyerarşisi
 
-Bu skill, kripto portföy takip uygulamasının arayüzünü tutarlı üretmek içindir. Hedef kitle: yüksek tutarlı dijital varlık yatırımcıları, trader'lar ve veriyi hızlı okumak isteyen kullanıcılar. Estetik: koyu, sakin, keskin, finansal terminal hissi veren ama lüks teknoloji duruşlu bir arayüz.
+### 2.1. Navigasyon Çatısı
+Uygulama 5 ana sekmeden ve modal/yığın (stack) alt ekranlardan oluşur:
 
-Teknoloji: **Flutter (Dart)**, grafikler için `fl_chart`, yazı tipleri için `google_fonts`, durum yönetimi `riverpod` veya `provider`.
+1. **Giriş / Kayıt Ol (`AuthScreen`):** Karşılama, biyometrik giriş, OAuth ve misafir modu.
+2. **Dashboard (`PortfolioOverviewScreen`):** Konsolide net portföy değeri, 24 saatlik değişim, toplam PnL, hızlı aksiyonlar ve varlık özeti.
+3. **Varlıklar (`MarketsWatchlistScreen` & `CoinDetailScreen`):** Coin piyasa listesi, trendler, Korku/Açgözlülük indeksi, coin detay ve maliyet çizgisi.
+4. **İşlem Ekle (`AddTransactionScreen`):** Merkezde yer alan öne çıkarılmış Floating Action Button (FAB) ile tetiklenen Alış/Satış/Transfer ekranı.
+5. **Geçmiş / Analiz (`PnLAnalysisScreen` & `HistoryScreen`):** Kümülatif getiri eğrileri, gerçekleşmiş vs. gerçekleşmemiş kâr/zarar, başarı oranları (% win-rate), CSV veri dışa aktarımı.
+6. **Ayarlar (`SettingsScreen`):** Arayüz Teması (Obsidian Precision Koyu), Para birimi (USD/TRY), Fiyat yenileme frekansı, CSV İçe/Dışa Aktarma, Hesap yönetimi.
 
-## 1. Ne zaman kullanılır
-
-- Yeni ekran, widget veya tema dosyası yazılırken
-- Mevcut bir ekranın görünümü bu sisteme uydurulurken
-- Renk, boşluk, tipografi veya bileşen kararı gerektiğinde
-
-Bu skill iş mantığını (ortalama maliyet, K/Z hesabı, API) kapsamaz, yalnızca görünüm ve etkileşim kurallarını kapsar.
-
-## 2. Tasarım ilkeleri
-
-1. **Milisaniyede okunabilirlik:** Kâr, zarar, toplam değer ve yüzdeler ilk bakışta okunmalı. Ekran başına en fazla 3 baskın sayı.
-2. **Gürültüsüz derinlik:** Ağır gölge yok. Derinlik yüzey tonları, 1px ince çerçeve ve hafif ışıma (glow) ile verilir.
-3. **Sakin güven:** Volatil piyasada panik hissi vermeyen, düzenli ve boşluklu yerleşim.
-4. **Renk tek başına anlam taşımaz:** Kâr/zarar rengi her zaman ok veya işaretle (`+`, `-`, ▲, ▼) birlikte gösterilir (renk körlüğü ve erişilebilirlik).
-5. **Sayılar titremez:** Tüm finansal rakamlar tabular (eşit genişlikli) rakamla yazılır, fiyat değişince yerleşim kaymaz.
-
-## 3. Renk sistemi (kanonik değerler)
-
-> Not: Tasarım dosyasında iki set vardı. Kod tarafında **aşağıdaki "metin bölümündeki" değerler esas alınır**, çünkü bileşen tanımları bunlara dayanıyor. Üstteki Material tarzı jeton listesi (`#051424` vb.) yalnızca yedek referanstır, aynı projede ikisini karıştırma.
-
-### Yüzeyler
-| Jeton | Hex | Kullanım |
-|---|---|---|
-| `canvas` | `#0B0F19` | Uygulama zemini |
-| `surface1` | `#111827` | Kart ve panel |
-| `surface2` | `#1E293B` | Yükseltilmiş modül, input, alt gezinme, sheet |
-| `surface3` | `#334155` | Aktif çip dolgusu, basılı durum, kenarlık |
-| `inputInset` | `#0E1422` | Form alanı içi |
-
-### Marka ve etkileşim
-| Jeton | Hex | Kullanım |
-|---|---|---|
-| `primary` | `#06B6D4` | Ana CTA, aktif gösterge, canlı fiyat işareti |
-| `secondary` | `#3B82F6` | Analitik vurgu, ikincil bağlantı |
-
-### Kâr / Zarar
-| Jeton | Hex | Kullanım |
-|---|---|---|
-| `profit` | `#10B981` | Temel kâr rengi |
-| `profitText` | `#34D399` | Kâr metni (yüksek görünürlük) |
-| `profitMuted` | `#059669` | Soluk kenarlık |
-| `loss` | `#EF4444` | Temel zarar rengi |
-| `lossText` | `#F87171` | Zarar metni |
-| `lossMuted` | `#DC2626` | Soluk kenarlık |
-
-### Metin
-| Jeton | Hex | Kullanım |
-|---|---|---|
-| `textPrimary` | `#F8FAFC` | Başlık, rakam, ticker |
-| `textSecondary` | `#94A3B8` | Etiket, meta veri, miktar |
-| `textMuted` | `#64748B` | Ayraç, boş durum, pasif |
-
-### Yarı saydam değerler
-- Kart kenarlığı: beyaz %6 (`rgba(255,255,255,0.06)`)
-- Sheet/modal kenarlığı: beyaz %12
-- Satır alt çizgisi: beyaz %3
-- Kâr arka planı: `#10B981` %12, kenarlık %25
-- Zarar arka planı: `#EF4444` %12, kenarlık %25
-- Cyan odak kenarlığı: `#06B6D4` %30
-
-## 4. Tipografi
-
-| Rol | Yazı tipi | Boyut / Satır | Ağırlık | Harf aralığı |
-|---|---|---|---|---|
-| headline-xl | Plus Jakarta Sans | 32 / 40 | 700 | -0.03em |
-| headline-xl-mobile | Plus Jakarta Sans | 28 / 36 | 700 | -0.025em |
-| headline-lg | Plus Jakarta Sans | 24 / 32 | 600 | -0.02em |
-| headline-md | Plus Jakarta Sans | 20 / 28 | 600 | -0.015em |
-| headline-sm | Plus Jakarta Sans | 16 / 24 | 600 | -0.01em |
-| body-lg | Inter | 16 / 24 | 400 | 0 |
-| body-md | Inter | 14 / 20 | 400 | 0 |
-| body-sm | Inter | 12 / 16 | 400 | 0 |
-| label-numeric-lg | Plus Jakarta Sans | 24 / 28 | 700 | -0.02em |
-| label-numeric-md | Plus Jakarta Sans | 16 / 20 | 600 | -0.01em |
-| label-sm | Inter | 11 / 14 | 500 | +0.04em, BÜYÜK HARF |
-| caption | Inter | 10 / 12 | 500 | +0.05em, BÜYÜK HARF |
-
-Kurallar:
-- **Başlıklar ve tüm finansal rakamlar:** Plus Jakarta Sans + tabular rakam (`FontFeature.tabularFigures()`).
-- **Gövde ve yoğun liste içeriği:** Inter.
-- **Mikro etiket ve rozet:** büyük harf, geniş harf aralığı.
-- Mobilde ana değer için `headline-xl-mobile` kullan.
-
-## 5. Boşluk ve yerleşim
-
-4px/8px ızgara. Jetonlar: `xs 4`, `sm 8`, `md 12`, `lg 16`, `xl 24`.
-
-- **Mobil:** tek sütun, yatay dış kenar boşluğu **16px**, kartlar arası **12-16px**.
-- **Tablet:** kenar boşluğu 24px, 6-12 sütunlu ızgara. Portföy özet kartı ile varlık listesi yan yana.
-- **Masaüstü/geniş:** kenar boşluğu 32px.
-- **Dikey ritim:**
-  - Sıkı gruplar (ticker, coin adı, mini grafik): 4-8px
-  - Kart iç boşluğu: 16px (kompakt liste satırında 12px)
-  - Bölümler arası: 24px
-
-## 6. Derinlik ve yüzeyler
-
-| Seviye | Yüzey | Kenarlık |
-|---|---|---|
-| 0 Zemin | `canvas` | yok |
-| 1 Kart | `surface1` | 1px beyaz %6 |
-| 2 Sheet / Modal / Overlay | `surface2` %85 opak + `BackdropFilter` blur 16 | 1px beyaz %12 |
-
-- **Gölge kullanma.** Derinlik yüzey tonu ve ince çerçeveyle sağlanır.
-- **Işıma:** Toplam portföy değeri alanının arkasına çok hafif cyan radyal gradient (üstten merkezli, `#06B6D4` %15 → saydam, yarıçap yaklaşık %70). Kâr/zarar rozetlerinin arkasında hafif yeşil/kırmızı parıltı.
-
-## 7. Şekil
-
-- Kart ve veri modülleri: **8px** köşe.
-- Input ve arama: **8px**.
-- Buton: **8px**.
-- **Hap (pill, tam yuvarlak):** yalnızca zaman aralığı seçici (1S, 24S, 7G, 30G, 1Y, TÜMÜ), aktif filtreler ve K/Z rozetleri.
-- Checkbox: 4px köşe.
-- Token ikonu: 32px "squircle".
-
-## 8. Bileşen kuralları
-
-### Butonlar ve zaman seçici
-- **Ana CTA:** `primary` dolgu, `canvas` renkli kalın metin, 8px köşe, hover/basılı durumda hafif cyan ışıma.
-- **İkincil:** `surface2` dolgu, 1px beyaz %8 kenarlık, `textPrimary` metin.
-- **Zaman aralığı seçici:** `surface1` zeminli grup kapsayıcı. Aktif seçenek `surface2` dolgu, `primary` metin, 1px cyan %30 kenarlık, hap şekilli.
-
-### Portföy özet kartı
-- `surface1`, üstte çok ince vurgu çizgisi (beyaz %10).
-- İçerik: toplam portföy değeri (`label-numeric-lg` veya `headline-xl-mobile`), 24 saatlik tutar değişimi, yüzde rozeti.
-- USD / TL anahtarı kartın sağ üstünde.
-- Arkada cyan radyal ışıma.
-
-### Varlık satırı (liste öğesi)
-Düz yatay satır, alt çizgisi beyaz %3. Soldan sağa:
-1. 32px token ikonu (squircle)
-2. Sembol (`headline-sm`) + altında miktar (`body-sm`, `textSecondary`)
-3. Mini sparkline (vektör, 2px çizgi, trend rengine göre yeşil/kırmızı)
-4. Sağa yaslı: güncel fiyat (`label-numeric-md`) + altında K/Z rozeti
-
-### K/Z rozeti
-| Durum | Arka plan | Metin | Kenarlık | Önek |
-|---|---|---|---|---|
-| Pozitif | `#10B981` %12 | `profitText` | `#10B981` %25 | `+` veya ▲ |
-| Negatif | `#EF4444` %12 | `lossText` | `#EF4444` %25 | `-` veya ▼ |
-| Sıfır | `surface3` | `textSecondary` | yok | yok |
-
-Hap şekilli, `label-sm` ölçüsünde, tabular rakam.
-
-### Form alanları
-- Zemin `inputInset`, 1px beyaz %8 kenarlık, 8px köşe.
-- Odakta kenarlık `primary`, ofset halka yok.
-- Tutar ve miktar alanları tabular rakam; sağa yaslı yazım tercih edilir.
-- Etiketler `label-sm`, `textSecondary`. Hata durumunda `lossText` kenarlık ve altta kısa hata metni.
-
-### Checkbox ve segment seçici
-- Checkbox 4px köşe, slate kenarlık. Seçilince `primary` dolgu, `canvas` renkli onay işareti.
-
-### Donut grafik (varlık dağılımı)
-- Ortada toplam değer (`label-numeric-lg`) ve altında küçük etiket.
-- Dilimler için kontrastlı bir palet: `primary`, `secondary`, `profit`, `#A78BFA`, `#F59E0B`, `#F472B6`, kalanlar için `surface3`. Dilimler arası ince `canvas` renkli boşluk.
-- Dilime dokununca ilgili coin detayı açılır (alt sheet).
-
-### Tablo (K/Z geçmişi)
-- Başlık satırı `label-sm`, `textSecondary`. Satırlar flush, ince alt çizgi.
-- Rakam sütunları sağa yaslı, tabular.
-- Net kâr/zarar sütunu rozet veya renkli metin + işaret ile gösterilir.
-
-### Canlı veri göstergesi
-- Küçük `primary` nokta (nabız animasyonu) ve "Son güncelleme: 14:35" metni (`caption`, `textMuted`).
-- Fiyat değiştiğinde kısa (300ms) yeşil/kırmızı parlama, ardından normale dönüş. Bu animasyon aşırı olmamalı.
-
-## 9. Ekran bazlı uygulama
-
-| Ekran | Anahtar bileşenler |
-|---|---|
-| **Giriş / Kayıt** | `canvas` zemin, ortada logo, input alanları, ana CTA, "Şifremi unuttum" bağlantısı (`secondary` renk). Kayıt sonrası "Manuel giriş / CSV yükle" iki kartlı seçim |
-| **Dashboard** | Özet kartı, USD/TL anahtarı, zaman seçici, performans grafiği, varlık satırları, "öne çıkan kriptolar" yatay kart kaydırma, yatırım tavsiyesi değildir notu |
-| **İşlem formu** | Alış/Satış segment anahtarı (alış `profit`, satış `loss` ton), coin arama, miktar/fiyat alanları, USD/TL seçici, "Piyasa fiyatını kullan" ikincil butonu, canlı önizleme kartı, ana CTA |
-| **Varlık dağılımı** | Donut, altında varlık tablosu (adet, ort. alış, anlık değer, K/Z tutarı ve %), toplam satırı |
-| **K/Z geçmişi** | İki sekme (İşlem Geçmişi / Gerçekleşmiş Kâr), filtre çipleri, tablo, alt toplam, CSV dışa aktarma |
-| **Ayarlar** | Gruplanmış liste kartları, anahtarlar (switch, `primary`), tema ve para birimi seçimi, tehlikeli işlemler (hesabı sil) `loss` renkli |
-
-Alt gezinme çubuğu: `surface2` zemin, aktif öğe `primary`, pasif `textMuted`. Ortadaki "+" (işlem ekle) vurgulu ve diğerlerinden belirgin.
-
-## 10. Flutter uygulama rehberi
-
-### Tema dosyası yapısı
+### 2.2. Alt Gezinme Çubuğu (Bottom Navigation Bar)
 ```
-lib/theme/
-  app_colors.dart      (renk jetonları)
-  app_text_styles.dart (tipografi)
-  app_spacing.dart     (boşluk ve köşe)
-  app_theme.dart       (ThemeData.dark tabanlı)
+[ 🏠 Dashboard ]  [ 🪙 Varlıklar ]  [ ( + ) İşlem Ekle ]  [ ⏱️ Geçmiş ]  [ ⚙️ Ayarlar ]
 ```
 
-### Renk jetonları (örnek)
-```dart
-import 'package:flutter/material.dart';
+---
 
-class AppColors {
-  static const canvas = Color(0xFF0B0F19);
-  static const surface1 = Color(0xFF111827);
-  static const surface2 = Color(0xFF1E293B);
-  static const surface3 = Color(0xFF334155);
-  static const inputInset = Color(0xFF0E1422);
+## 3. Tasarım Sistemi Token'ları (Design Tokens)
 
-  static const primary = Color(0xFF06B6D4);
-  static const secondary = Color(0xFF3B82F6);
+### 3.1. Renk Paleti (Saf Karanlık Obsidian Token'ları)
 
-  static const profit = Color(0xFF10B981);
-  static const profitText = Color(0xFF34D399);
-  static const loss = Color(0xFFEF4444);
-  static const lossText = Color(0xFFF87171);
+| Token İsmi | Hex Kodu | Kullanım Alanı |
+| :--- | :--- | :--- |
+| `canvas / background` | `#051424` | Ana sayfa arka planı (derin petrol / obsidyen) |
+| `surface-dim` | `#010F1F` | En alt katman, gölgeli alanlar, modal arka planı |
+| `surface-card / surface1` | `#0D1C2D` | Birincil veri kartları, liste elemanları |
+| `surface2` | `#13263B` | İç içe kartlar, ikincil kutular, chip zeminleri |
+| `surface3` | `#1F344D` | Seçili durumlar, aktif buton zeminleri |
+| `surface-border` | `#1F344D` | İnce ayırıcı çizgiler, kart sınırları |
+| `primary` / `cyan` | `#06B6D4` | Marka rengi, aktif sekmeler, butonlar, ana vurgular |
+| `primaryBright` | `#22D3EE` | Vurgulu neon ikonlar, parlak linkler |
+| `success` / `profit` | `#10B981` | Pozitif PnL, yükseliş eğilimleri, aktif bağlantı rozeti |
+| `danger` / `loss` | `#EF4444` | Negatif PnL, düşüş oranları, satış aksiyonları |
+| `text-primary` | `#F8FAFC` | Başlıklar, birincil bakiye tutarları |
+| `text-secondary` | `#94A3B8` | Açıklamalar, etiketler, dipnotlar |
+| `text-muted` | `#64748B` | Pasif metinler, timestamp'ler, grid çizgileri |
+| `input-inset` | `#0A1929` | Arama & metin giriş kutusu içi |
 
-  static const textPrimary = Color(0xFFF8FAFC);
-  static const textSecondary = Color(0xFF94A3B8);
-  static const textMuted = Color(0xFF64748B);
-}
-```
+### 3.2. Piksel Taşması ve Esneklik Standartları (Zero-Overflow Standard)
+- **Satır İçi Metinler (Inline Row Texts):** Para birimi simgesi, yüzde rozeti veya aksiyon butonu içeren tüm `Row` içindeki metin blokları (`Text`) kesinlikle `Flexible` veya `Expanded` içine alınmalı, `overflow: TextOverflow.ellipsis` ve `maxLines: 1` ile sınırlandırılmalıdır.
+- **Konsolide Bakiyeler:** Display boyutundaki büyük parasal değerler `FittedBox(fit: BoxFit.scaleDown)` ile sarılarak dar ekranlarda (iPhone SE / 375px) bile taşması önlenmelidir.
+- **Diyaloglar & Bottom Sheet'ler:** Modal pencereler (`AlertDialog`, `GlassSheet`) içerik boyutu bilinmeyen durumlarda `SingleChildScrollView` ve `SafeArea` ile sarılmalıdır.
 
-### Tabular rakam
-```dart
-TextStyle numeric(double size, FontWeight w) => GoogleFonts.plusJakartaSans(
-  fontSize: size,
-  fontWeight: w,
-  color: AppColors.textPrimary,
-  fontFeatures: const [FontFeature.tabularFigures()],
-);
-```
+### 3.3. Tipografi (Typography)
+- **Ana Yazı Tipi:** `Plus Jakarta Sans` veya `Inter`
+- **Sayısal & Finansal Veriler:** `tabular-nums` (sayıların hizada kalması için sabit genişlikli rakamlar)
+- **Hiyerarşi:**
+  - `Display / Total Balance`: 32px – 36px, Bold (Font-weight: 700-800)
+  - `Section Title`: 16px – 18px, Semi-Bold (Font-weight: 600)
+  - `Body / Coin Name`: 14px – 15px, Medium (Font-weight: 500)
+  - `Caption / Micro Label`: 11px – 12px, Regular/Medium (Font-weight: 400-500)
 
-### Kart
-```dart
-Container(
-  padding: const EdgeInsets.all(16),
-  decoration: BoxDecoration(
-    color: AppColors.surface1,
-    borderRadius: BorderRadius.circular(8),
-    border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
-  ),
-  child: ...,
-)
-```
+### 3.4. Boşluk & Köşe Yuvarlama (Spacing & Radius)
+- **Border Radius:**
+  - `card`: `16px` (`rounded-2xl`)
+  - `button / input`: `12px` (`rounded-xl`)
+  - `badge / pill`: `9999px` (`rounded-full`)
+- **Spacing Scale:** 4px bazlı ritim (4, 8, 12, 16, 20, 24, 32px)
 
-### Cam efektli sheet
-`ClipRRect` + `BackdropFilter(filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16))` + `surface2` %85 opak dolgu + 1px beyaz %12 kenarlık.
+---
 
-### Genel Flutter kuralları
-- `ThemeData(brightness: Brightness.dark, scaffoldBackgroundColor: AppColors.canvas, ...)` ile temayı tek yerden tanımla, ekranlarda sabit renk kodu yazma.
-- Renk, boşluk ve köşe değerlerini yalnızca `AppColors`, `AppSpacing` ve `AppTextStyles` üzerinden kullan.
-- Para ve yüzde biçimlendirmesi için `intl` (`NumberFormat`), Türkçe yerel ayarla (`tr_TR`).
-- Tekrar eden öğeleri widget olarak çıkar: `PnlBadge`, `AssetRow`, `PortfolioSummaryCard`, `PeriodSelector`, `GlassSheet`, `LiveDot`.
+## 4. Ekran Detayları ve Fonksiyonel Gereksinimler
 
-## 11. Erişilebilirlik ve etkileşim
+### 4.1. Portföy Genel Bakış (Dashboard)
+- **Konsolide Bakiye Kartı:** Toplam varlık değeri ($84,250.60), 24s net değişim miktarı ve yüzdesi, tüm zamanlar PnL.
+- **Gizlilik Toggle'ı:** Tutar gizleme/gösterme (göz ikonu).
+- **Hızlı Aksiyonlar:** 4'lü buton ızgarası (Yatır, Çek, İşlem Ekle, Varlık Dağılımı).
+- **Varlık Dağılım Çubuğu:** Renk kodlu segmentli progress bar (BTC %48.5, ETH %27.2, SOL %14.3, Diğer %10.0).
+- **Varlık Listesi:** Coin simgesi, adı, sembolü, elde tutulan adet, toplam USD değeri, 24s getiri yüzdesi ve bireysel kâr tutarı.
 
-- Metin/zemin kontrastı: ana metin `textPrimary` zemin üzerinde yüksek kontrast, `textMuted` yalnızca ikincil ve pasif öğede.
-- Dokunma hedefi en az **44x44 px**.
-- Kâr/zarar yalnızca renkle değil işaret ve ok ile de belirtilir.
-- Önemli işlem butonları ekranın alt yarısında (tek elle kullanım).
-- Yükleniyor durumunda iskelet (skeleton) yer tutucu, dönen çember yerine tercih edilir. Hata ve boş durumlarda kısa açıklama ve bir eylem butonu.
-- Hareketi azalt ayarı açıksa nabız ve parlama animasyonlarını kapat.
-- Bakiye gizleme (göz simgesi) isteniyorsa tutarlar "••••" ile maskelenir, yüzdeler görünür kalabilir.
+### 4.2. Kâr / Zarar & Performans Analizi (P&L Analytics)
+- **Zaman Dilimi Seçicisi:** Segment kontrolü (`24S`, `7G`, `30G`, `90G`, `1Y`, `Tümü`).
+- **PnL Ayrımı:**
+  - *Gerçekleşmemiş Kâr (Unrealized):* Açık pozisyonların anlık getirisi.
+  - *Gerçekleşmiş Kâr (Realized):* Kapatılan işlemlerin net bakiyesi.
+- **Kümülatif Getiri Eğrisi:** Düşüş (Dip) ve Zirve (ATH) noktalarını etiketleyen degrade dolgulu çizgi grafiği.
+- **Verimlilik Metrikleri:** Kazanma Oranı (% Win Rate çemberi), Kâr/Zarar Faktörü (Profit Factor), Ortalama İşlem Kârı.
+- **Aylık Performans Karşılaştırması:** Geçmiş ayların getiri barları.
 
-## 12. Yapma listesi
+### 4.3. Varlık Detayı (Coin Detail - Bitcoin)
+- **Başlık & Fiyat Alanı:** Anlık kur, 24s değişim, favoriye ekleme ve alarm kurma butonları.
+- **Pozisyon Kartı:** Kullanıcının portföyündeki adedi, toplam değeri, **Ortalama Maliyeti (DCA)** ve bu coinden elde edilen toplam net kâr.
+- **Maliyet Çizgili Fiyat Grafiği:** Anlık fiyat ile ortalama alış seviyesini kıyaslayan referans çizgisi kesikli hatla gösterilir.
+- **Piyasa İstatistikleri:** 24s En Yüksek/En Düşük barı, Market Cap, Hacim, Dolaşımdaki Arz.
+- **İşlem Geçmişi:** İlgili coine ait geçmiş Alış/Satış/Transfer kayıtları.
 
-- Ağır gölge, canlı gradyan dolgu ve oversize yuvarlak köşe kullanma.
-- Aynı ekranda 3'ten fazla vurgu rengi kullanma.
-- Kâr/zarar için yalnızca renge güvenme.
-- Finansal rakamlarda tabular olmayan yazı tipi kullanma.
-- Hap şekli yalnızca zaman seçici, filtre ve rozetler için kullan, kartlara ve normal butonlara uygulama.
-- Sabit hex kodunu widget içine gömme, jeton kullan.
-- Tasarım dosyasındaki iki farklı renk setini aynı projede karıştırma.
-- "Tavsiye edilen kripto" gibi bölümlerde yatırım tavsiyesi dili kullanma, bilgilendirme notu ekle.
+### 4.4. Yeni İşlem Ekleme (Add Transaction Modal)
+- **İşlem Tipi Seçici:** `Alış` (Yeşil) / `Satış` (Kırmızı) / `Transfer` (Nötr).
+- **Girdi Alanları:**
+  - Varlık seçimi (Açılır liste).
+  - Alınan/Satılan miktar (Maksimum butonuyla).
+  - Birim alış fiyatı (Anlık piyasa fiyatını getirme butonuyla).
+  - Toplam hesaplanan tutar (USDT / Yerel Para Birimi).
+  - Borsa / Cüzdan seçimi (Binance TR, MetaMask, Soğuk Cüzdan vb.).
+  - Tarih, saat, komisyon ve kişisel not alanı.
+- **Portföy Simülasyon Kartı:** Bu işlem onaylandığında yeni ortalama maliyetin (DCA) nasıl güncelleneceğini anlık gösterir.
 
-## 13. Teslim öncesi kontrol listesi
+### 4.5. Piyasalar ve İzleme Listesi (Markets & Watchlist)
+- **Arama Çubuğu:** Coin ve sembol arama.
+- **Piyasa Nabzı:** Canlı Korku & Açgözlülük İndeksi (0-100 skala), Global Market Cap, BTC Dominansı.
+- **Kategori Hapları (Filter Chips):** Takip Listem, Tümü, Yapay Zeka (AI), Layer 1, DeFi, Meme.
+- **Sıralı Coin Listesi:** Piyasa değerine veya 24s değişime göre sıralama opsiyonu.
+- **Hızlı Fiyat Alarmı:** Fiyat hedefi tetikleyici kartı.
 
-- [ ] Tüm renkler `AppColors` jetonlarından geliyor
-- [ ] Finansal rakamlar tabular ve doğru yazı tipinde
-- [ ] Kâr/zarar rozetlerinde renk + işaret birlikte var
-- [ ] Kartlar 8px köşe, 1px beyaz %6 kenarlık, gölgesiz
-- [ ] Mobil 16px kenar boşluğu, kartlar arası 12-16px
-- [ ] Boş, yükleniyor ve hata durumları tasarlandı
-- [ ] Zaman aralığı seçici hap şeklinde, aktif durumu doğru
-- [ ] Dokunma hedefleri en az 44px
-- [ ] Son güncelleme saati ve USD/TL geçişi Dashboard'da görünüyor
-- [ ] Küçük ve büyük ekranda taşma olmadan test edildi
+### 4.6. Ayarlar ve Güvenlik (Settings)
+- **Arayüz Teması:** Karanlık Mod, Aydınlık Mod ve Sistem Teması arasında anlık geçiş ve SharedPreferences ile kalıcı saklama.
+- **Hesaplama Tercihleri:**
+  - Varsayılan Para Birimi (`USD`, `TRY`).
+  - Fiyat Yenileme Sıklığı (30 sn, 60 sn, 300 sn).
+- **Veri Dışa Aktarma (CSV):** `share_plus` ile iOS ve iPadOS uyumlu, `sharePositionOrigin` korumalı, boş portföylerde bile başlık satırlı standart şablon indirme desteği.
+- **Güvenlik Katmanı:** Çıkış yapma ve verileri kalıcı olarak sıfırlama.
+
+### 4.7. Giriş & Kimlik Doğrulama (Auth)
+- **Güvenlik Rozetleri:** Uçtan uca şifreleme ve Supabase Auth entegrasyonu.
+- **Giriş Yöntemleri:** E-posta/Şifre formu ve otomatik oturum yönetimi.
+
+---
+
+## 5. UI Bileşen Kütüphanesi & Kodlama Kuralları
+
+### 5.1. Dinamik Tema Mimarisi Standardı (Flutter)
+- Renkler statik sabitler yerine `AppColors.canvas`, `AppColors.surface1`, `AppColors.textPrimary` dinamik getter'ları ile çağrılır.
+- Tema modu `themeModeProvider` (Riverpod) ile yönetilir ve `AppColors.setBrightness()` üzerinden senkronize edilir.
+
+### 5.2. CSV Dışa Aktarma ve Paylaşım Standardı
+- `share_plus` çağrılarında iOS / iPadOS çökmesini engellemek için her zaman `sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size` koordinatı iletilir.
+- Kullanıcının işlemi olmasa bile dışa aktarma hatası üretilmez; geçerli sütun başlıklarını içeren boş `.csv` şablonu indirtilir.
+
+---
+
+## 6. Geliştirme ve Gelecek İterasyon İlkeleri
+1. **Veri Bütünlüğü ve Şeffaflık:** Fiyat ve kâr hesaplamalarında kullanıcının seçtiği yöntem (DCA vs. FIFO) her zaman açıkça belirtilmelidir.
+2. **Çift Tema Desteği:** Tüm yeni bileşenler hem Karanlık (Obsidian) hem de Aydınlık (Solar Platinum) modda kontrast testi yapılmalıdır.
+3. **Mikro-Etkileşimler:** Fiyat alarmları, işlem ekleme ve filtre geçişlerinde anlık görsel geri bildirim sunulmalıdır.
+4. **Platform Uyumluluğu:** Paylaşım, indirme ve harici sayfa açma gibi işletim sistemi etkileşimlerinde platform origin koordinatları eksiksiz sağlanmalıdır.

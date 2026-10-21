@@ -66,15 +66,21 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
 
   void _useMarketPrice() {
     final prices = ref.read(pricesProvider).value ?? [];
+    final idLower = _selectedAsset.id.toLowerCase();
+    final cgLower = _selectedAsset.coingeckoId.toLowerCase();
+    final symLower = _selectedAsset.symbol.toLowerCase();
+    final curUpper = _selectedCurrency.toUpperCase();
+
     PriceInfo? match;
     for (final p in prices) {
-      if ((p.assetId == _selectedAsset.id || p.assetId == _selectedAsset.coingeckoId) &&
-          p.currency == _selectedCurrency) {
+      final target = p.assetId.toLowerCase();
+      if ((target == idLower || target == cgLower || target == symLower || target == '$symLower-asset') &&
+          p.currency.toUpperCase() == curUpper) {
         match = p;
         break;
       }
     }
-    match ??= prices.where((p) => p.currency == _selectedCurrency).firstOrNull;
+    match ??= prices.where((p) => p.currency.toUpperCase() == curUpper).firstOrNull;
 
     if (match != null) {
       setState(() {
@@ -91,8 +97,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Piyasa fiyatı henüz yüklenmedi.'),
+        SnackBar(
+          content: const Text('Piyasa fiyatı henüz yüklenmedi.'),
           backgroundColor: AppColors.surface3,
         ),
       );
@@ -130,7 +136,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   TextField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Coin ara (BTC, Ethereum...)',
                       prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                     ),
@@ -140,7 +146,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
                   Expanded(
                     child: ListView.separated(
                       itemCount: filtered.length,
-                      separatorBuilder: (_, _) => const Divider(height: 1, color: AppColors.borderDivider),
+                      separatorBuilder: (_, _) => Divider(height: 1, color: AppColors.borderDivider),
                       itemBuilder: (context, i) {
                         final asset = filtered[i];
                         return ListTile(
@@ -151,7 +157,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
                             imageUrl: asset.imageUrl,
                           ),
                           trailing: _selectedAsset.id == asset.id
-                              ? const Icon(Icons.check, color: AppColors.primary, size: 20)
+                              ? Icon(Icons.check, color: AppColors.primary, size: 20)
                               : null,
                           onTap: () {
                             setState(() => _selectedAsset = asset);
@@ -178,7 +184,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       lastDate: DateTime.now().add(const Duration(days: 1)),
       builder: (context, child) => Theme(
         data: ThemeData.dark().copyWith(
-          colorScheme: const ColorScheme.dark(
+          colorScheme: ColorScheme.dark(
             primary: AppColors.primary,
             surface: AppColors.surface1,
           ),
@@ -193,7 +199,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       initialTime: TimeOfDay.fromDateTime(_executedAt),
       builder: (context, child) => Theme(
         data: ThemeData.dark().copyWith(
-          colorScheme: const ColorScheme.dark(
+          colorScheme: ColorScheme.dark(
             primary: AppColors.primary,
             surface: AppColors.surface1,
           ),
@@ -406,7 +412,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
                           imageUrl: _selectedAsset.imageUrl,
                         ),
                         const SizedBox(width: AppSpacing.xs),
-                        const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary, size: 20),
+                        Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary, size: 20),
                       ],
                     ),
                   ),
@@ -440,7 +446,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             decoration: InputDecoration(
               labelText: 'İşlem Miktarı (${_selectedAsset.symbol})',
               hintText: '0.00',
-              prefixIcon: const Icon(Icons.numbers, color: AppColors.textSecondary, size: 20),
+              prefixIcon: Icon(Icons.numbers, color: AppColors.textSecondary, size: 20),
             ),
             validator: (val) {
               if (val == null || val.trim().isEmpty) {
@@ -464,13 +470,13 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             decoration: InputDecoration(
               labelText: 'Birim Fiyat ($_selectedCurrency)',
               hintText: '0.00',
-              prefixIcon: const Icon(Icons.attach_money, color: AppColors.textSecondary, size: 20),
+              prefixIcon: Icon(Icons.attach_money, color: AppColors.textSecondary, size: 20),
               suffixIcon: Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: TextButton.icon(
                   onPressed: _useMarketPrice,
-                  icon: const Icon(Icons.bolt, size: 16, color: AppColors.primary),
-                  label: const Text('Piyasa', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700)),
+                  icon: Icon(Icons.bolt, size: 16, color: AppColors.primary),
+                  label: Text('Piyasa', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700)),
                 ),
               ),
             ),
@@ -499,7 +505,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_today_outlined, color: AppColors.textSecondary, size: 20),
+                  Icon(Icons.calendar_today_outlined, color: AppColors.textSecondary, size: 20),
                   const SizedBox(width: AppSpacing.sm),
                   Text('İşlem Tarihi', style: AppTextStyles.bodySm),
                   const Spacer(),
@@ -522,7 +528,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             decoration: InputDecoration(
               labelText: 'Komisyon ($_selectedCurrency) - Opsiyonel',
               hintText: '0.00',
-              prefixIcon: const Icon(Icons.receipt_long_outlined, color: AppColors.textSecondary, size: 20),
+              prefixIcon: Icon(Icons.receipt_long_outlined, color: AppColors.textSecondary, size: 20),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -531,7 +537,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           TextFormField(
             controller: _noteController,
             style: AppTextStyles.bodyMd.copyWith(color: AppColors.textPrimary),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'İşlem Notu (Opsiyonel)',
               hintText: 'Örn: DCA Alımı, Binance, vb.',
               prefixIcon: Icon(Icons.note_alt_outlined, color: AppColors.textSecondary, size: 20),
@@ -550,7 +556,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.warning_amber_rounded, color: AppColors.lossText, size: 20),
+                  Icon(Icons.warning_amber_rounded, color: AppColors.lossText, size: 20),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
@@ -580,7 +586,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           ElevatedButton(
             onPressed: _isSubmitting ? null : _submitTransaction,
             child: _isSubmitting
-                ? const SizedBox(
+                ? SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.canvas),

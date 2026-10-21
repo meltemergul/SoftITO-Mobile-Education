@@ -16,9 +16,21 @@ final currentUserProvider = Provider<User?>((ref) {
   return authState.value?.session?.user ?? ref.watch(authRepositoryProvider).currentUser;
 });
 
+class GuestModeNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+  void enableGuest() => state = true;
+  void disableGuest() => state = false;
+}
+
+final isGuestModeProvider = NotifierProvider<GuestModeNotifier, bool>(
+  GuestModeNotifier.new,
+);
+
 final isAuthenticatedProvider = Provider<bool>((ref) {
   final user = ref.watch(currentUserProvider);
-  return user != null;
+  final isGuest = ref.watch(isGuestModeProvider);
+  return user != null || isGuest;
 });
 
 final authControllerProvider =

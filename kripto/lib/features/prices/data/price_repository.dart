@@ -15,7 +15,7 @@ class PriceRepository {
     final client = SupabaseService.client;
     if (client == null) {
       if (_lastKnownPrices.isEmpty) {
-        _lastKnownPrices = await _priceService.fetchPricesFromEdgeFunction();
+        _lastKnownPrices = await _priceService.fetchPrices();
       }
       return _lastKnownPrices;
     }
@@ -42,14 +42,22 @@ class PriceRepository {
         }
       }
 
-      // Önbellek boş veya eskiyse Edge Function'dan yenile
-      final refreshed = await _priceService.fetchPricesFromEdgeFunction();
+      // Önbellek boş veya eskiyse yenile
+      final refreshed = await _priceService.fetchPrices();
       if (refreshed.isNotEmpty) {
         _lastKnownPrices = refreshed;
         return refreshed;
       }
     } catch (_) {
-      // Ağ hatası veya istisna durumunda son bilinen fiyatları koru
+      // Supabase tablosu henüz yoksa veya ağ hatası varsa doğrudan servisten çekmeyi dene
+      try {
+        final refreshed = await _priceService.fetchPrices();
+        if (refreshed.isNotEmpty) {
+          _lastKnownPrices = refreshed;
+          return refreshed;
+        }
+      } catch (_) {}
+
       if (_lastKnownPrices.isNotEmpty) {
         return _lastKnownPrices;
       }
@@ -60,7 +68,7 @@ class PriceRepository {
 
   Future<List<PriceInfo>> refreshPrices() async {
     try {
-      final refreshed = await _priceService.fetchPricesFromEdgeFunction();
+      final refreshed = await _priceService.fetchPrices();
       if (refreshed.isNotEmpty) {
         _lastKnownPrices = refreshed;
         return refreshed;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Obsidian Precision Financial: Boşluk ve Köşe Jetonları
+/// Chronomind Tasarım Sistemi: Boşluk ve Köşe Jetonları (SKILL.md §3.3)
 class AppSpacing {
   AppSpacing._();
 
@@ -9,6 +9,7 @@ class AppSpacing {
   static const double sm = 8.0;
   static const double md = 12.0;
   static const double lg = 16.0;
+  static const double xlg = 20.0;
   static const double xl = 24.0;
   static const double xxl = 32.0;
 
@@ -25,10 +26,10 @@ class AppSpacing {
 
   // Köşe Yuvarlaklığı (Border Radius)
   static const double radiusCheckbox = 4.0;
-  static const double radiusCard = 8.0;
-  static const double radiusInput = 8.0;
-  static const double radiusButton = 8.0;
-  static const double radiusSheet = 16.0;
+  static const double radiusCard = 16.0; // rounded-2xl
+  static const double radiusInput = 12.0; // rounded-xl
+  static const double radiusButton = 12.0; // rounded-xl
+  static const double radiusSheet = 24.0;
   static const double radiusPill = 999.0;
   static const double tokenIconSize = 32.0;
 

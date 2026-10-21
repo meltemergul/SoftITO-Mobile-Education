@@ -14,7 +14,11 @@ class ChronomindApp extends ConsumerWidget {
       title: 'Chronomind',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
       routerConfig: router,
     );
   }
 }
+
+

@@ -38,7 +38,7 @@ class _RealizedPnlTableState extends State<RealizedPnlTable> {
         child: Center(
           child: Column(
             children: [
-              const Icon(Icons.receipt_long_outlined, color: AppColors.textMuted, size: 36),
+              Icon(Icons.receipt_long_outlined, color: AppColors.textMuted, size: 36),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 'Henüz gerçekleşmiş kâr/zarar kaydı yok',
@@ -94,14 +94,14 @@ class _RealizedPnlTableState extends State<RealizedPnlTable> {
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.borderDivider),
+          Divider(height: 1, color: AppColors.borderDivider),
 
           // Liste Satırları
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: filtered.length,
-            separatorBuilder: (_, _) => const Divider(height: 1, color: AppColors.borderDivider),
+            separatorBuilder: (_, _) => Divider(height: 1, color: AppColors.borderDivider),
             itemBuilder: (context, i) {
               final sale = filtered[i];
               final isProfit = sale.netPnl >= Decimal.zero;
@@ -158,20 +158,25 @@ class _RealizedPnlTableState extends State<RealizedPnlTable> {
           ),
 
           // Alt Toplam Özeti (Footer)
-          const Divider(height: 1, color: AppColors.borderSheet),
+          Divider(height: 1, color: AppColors.borderSheet),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             color: AppColors.surface2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'TOPLAM GERÇEKLEŞMİŞ K/Z',
-                  style: AppTextStyles.labelSm.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w700,
+                Expanded(
+                  child: Text(
+                    'TOPLAM GERÇEKLEŞMİŞ K/Z',
+                    style: AppTextStyles.labelSm.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   '${totalNetPnl >= Decimal.zero ? '+' : ''}${AppFormatters.formatCurrency(totalNetPnl, widget.currency)}',
                   style: AppTextStyles.labelNumericMd.copyWith(

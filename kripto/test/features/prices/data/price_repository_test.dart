@@ -4,13 +4,15 @@ import 'package:chronomind/features/prices/data/price_repository.dart';
 import 'package:chronomind/features/prices/data/price_service.dart';
 import 'package:chronomind/features/prices/domain/price_info.dart';
 
+import 'package:chronomind/shared/models/asset.dart';
+
 class MockPriceService extends PriceService {
   int fetchCallCount = 0;
   List<PriceInfo> stubbedPrices = [];
   bool shouldThrow = false;
 
   @override
-  Future<List<PriceInfo>> fetchPricesFromEdgeFunction() async {
+  Future<List<PriceInfo>> fetchPrices({List<Asset>? customAssets}) async {
     fetchCallCount++;
     if (shouldThrow) {
       throw Exception('Ağ hatası: Sunucuya ulaşılamıyor');

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
-import '../../../app/theme/app_text_styles.dart';
 import '../../../shared/models/asset.dart';
 import '../../../shared/widgets/state_views.dart';
 import '../../portfolio/providers/portfolio_provider.dart';
@@ -24,72 +23,51 @@ class HistoryScreen extends ConsumerStatefulWidget {
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   int _selectedTab = 0;
 
-  void _exportTransactionsAsCsv(List<AppTransaction> transactions, List<Asset> assets) {
-    if (transactions.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Dışa aktarılacak işlem bulunmuyor.'),
-          backgroundColor: AppColors.surface3,
-        ),
-      );
-      return;
+  Rect _getShareOrigin() {
+    final box = context.findRenderObject() as RenderBox?;
+    if (box != null && box.hasSize) {
+      return box.localToGlobal(Offset.zero) & box.size;
     }
+    return const Rect.fromLTWH(0, 0, 300, 300);
+  }
 
-    final StringBuffer buffer = StringBuffer();
-    buffer.writeln('tarih,coin,islem_tipi,miktar,fiyat,para_birimi,komisyon');
+  Future<void> _exportTransactionsAsCsv(List<AppTransaction> transactions, List<Asset> assets) async {
+    final origin = _getShareOrigin();
 
-    for (final tx in transactions) {
-      final asset = assets.firstWhere(
-        (a) => a.id == tx.assetId,
-        orElse: () => Asset(
-          id: tx.assetId,
-          symbol: tx.assetId.toUpperCase(),
-          name: tx.assetId,
-          coingeckoId: tx.assetId.toLowerCase(),
-        ),
-      );
-
-      final dateStr = tx.executedAt.toLocal().toString().substring(0, 16);
-      final typeStr = tx.type == TransactionType.buy ? 'BUY' : 'SELL';
-      buffer.writeln('$dateStr,${asset.symbol},$typeStr,${tx.quantity},${tx.price},${tx.priceCurrency},${tx.fee}');
-    }
-
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface1,
-        title: Text('CSV Dışa Aktarma', style: AppTextStyles.headlineSm),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('${transactions.length} işlem CSV formatına dönüştürüldü:', style: AppTextStyles.bodySm),
-            const SizedBox(height: AppSpacing.sm),
-            Container(
-              height: 160,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.inputInset,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: AppColors.borderCard),
-              ),
-              child: SingleChildScrollView(
-                child: SelectableText(
-                  buffer.toString(),
-                  style: AppTextStyles.caption.copyWith(fontFamily: 'monospace', color: AppColors.textPrimary),
-                ),
-              ),
+    try {
+      final csvService = ref.read(csvServiceProvider);
+      if (transactions.isEmpty) {
+        await csvService.exportSampleTemplateCsvFile(sharePositionOrigin: origin);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Kayıtlı işlem olmadığından CSV başlık şablonu dışa aktarıldı.'),
+              backgroundColor: AppColors.profit,
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Kapat', style: TextStyle(color: AppColors.primary)),
+          );
+        }
+        return;
+      }
+
+      await csvService.exportTransactionsToCsvFile(transactions, assets, sharePositionOrigin: origin);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${transactions.length} işlem .csv dosyası olarak hazırlandı.'),
+            backgroundColor: AppColors.profit,
           ),
-        ],
-      ),
-    );
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('CSV dışa aktarma hatası: $e'),
+            backgroundColor: AppColors.loss,
+          ),
+        );
+      }
+    }
   }
 
   @override

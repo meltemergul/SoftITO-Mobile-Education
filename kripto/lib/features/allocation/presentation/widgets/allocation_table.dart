@@ -36,7 +36,7 @@ class AllocationTable extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const Icon(Icons.pie_chart_outline, color: AppColors.textMuted, size: 36),
+              Icon(Icons.pie_chart_outline, color: AppColors.textMuted, size: 36),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 'Görüntülenecek varlık bulunmuyor',
@@ -84,10 +84,18 @@ class AllocationTable extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('VARLIK TABLOSU', style: AppTextStyles.labelSm),
+                Expanded(
+                  child: Text(
+                    'VARLIK TABLOSU',
+                    style: AppTextStyles.labelSm,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildSortChip('Değer', AllocationSort.byValue),
                     const SizedBox(width: 4),
@@ -99,14 +107,14 @@ class AllocationTable extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.borderDivider),
+          Divider(height: 1, color: AppColors.borderDivider),
 
           // Liste Satırları
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: sorted.length,
-            separatorBuilder: (_, _) => const Divider(height: 1, color: AppColors.borderDivider),
+            separatorBuilder: (_, _) => Divider(height: 1, color: AppColors.borderDivider),
             itemBuilder: (context, i) {
               final pos = sorted[i];
               return Padding(
@@ -119,39 +127,62 @@ class AllocationTable extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(pos.asset.symbol, style: AppTextStyles.headlineSm.copyWith(fontSize: 14)),
+                          Text(
+                            pos.asset.symbol,
+                            style: AppTextStyles.headlineSm.copyWith(fontSize: 14),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           const SizedBox(height: 2),
                           Text(
                             '${AppFormatters.formatQuantity(pos.quantity)} adet',
                             style: AppTextStyles.bodySm,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             'Ort: ${AppFormatters.formatCurrency(pos.averageBuyPrice, currency)}',
                             style: AppTextStyles.caption.copyWith(color: AppColors.textMuted),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(width: AppSpacing.sm),
                     // Değer & K/Z
                     Expanded(
                       flex: 5,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            AppFormatters.formatCurrency(pos.currentValue, currency),
-                            style: AppTextStyles.labelNumericMd,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              AppFormatters.formatCurrency(pos.currentValue, currency),
+                              style: AppTextStyles.labelNumericMd,
+                              maxLines: 1,
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Row(
                             mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                AppFormatters.formatCurrency(pos.unrealizedPnl, currency),
-                                style: AppTextStyles.caption.copyWith(
-                                  color: pos.unrealizedPnl >= Decimal.zero
-                                      ? AppColors.profitText
-                                      : AppColors.lossText,
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    AppFormatters.formatCurrency(pos.unrealizedPnl, currency),
+                                    style: AppTextStyles.caption.copyWith(
+                                      color: pos.unrealizedPnl >= Decimal.zero
+                                          ? AppColors.profitText
+                                          : AppColors.lossText,
+                                    ),
+                                    maxLines: 1,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 6),
@@ -168,28 +199,38 @@ class AllocationTable extends StatelessWidget {
           ),
 
           // Alt Toplam Satırı (Footer)
-          const Divider(height: 1, color: AppColors.borderSheet),
+          Divider(height: 1, color: AppColors.borderSheet),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             color: AppColors.surface2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'TOPLAM PORTFÖY',
-                  style: AppTextStyles.labelSm.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w700,
+                Expanded(
+                  child: Text(
+                    'TOPLAM PORTFÖY',
+                    style: AppTextStyles.labelSm.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: AppSpacing.sm),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      AppFormatters.formatCurrency(totalValue, currency),
-                      style: AppTextStyles.labelNumericMd.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        AppFormatters.formatCurrency(totalValue, currency),
+                        style: AppTextStyles.labelNumericMd.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
                       ),
                     ),
                     const SizedBox(height: 2),

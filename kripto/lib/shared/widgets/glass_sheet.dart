@@ -24,7 +24,7 @@ class GlassSheet extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface2.withValues(alpha: 0.85),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusSheet)),
-            border: const Border(
+            border: Border(
               top: BorderSide(color: AppColors.borderSheet, width: 1),
               left: BorderSide(color: AppColors.borderSheet, width: 1),
               right: BorderSide(color: AppColors.borderSheet, width: 1),

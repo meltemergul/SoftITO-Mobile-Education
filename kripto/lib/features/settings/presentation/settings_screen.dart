@@ -36,20 +36,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             Text('Varsayılan Para Birimi', style: AppTextStyles.headlineSm),
             const SizedBox(height: AppSpacing.md),
             ListTile(
-              title: const Text('Amerikan Doları (USD)'),
+              title: Text('Amerikan Doları (USD)'),
               trailing: currentCurrency == 'USD'
-                  ? const Icon(Icons.check, color: AppColors.primary)
+                  ? Icon(Icons.check, color: AppColors.primary)
                   : null,
               onTap: () {
                 ref.read(currencyProvider.notifier).setCurrency('USD');
                 Navigator.pop(ctx);
               },
             ),
-            const Divider(height: 1, color: AppColors.borderDivider),
+            Divider(height: 1, color: AppColors.borderDivider),
             ListTile(
-              title: const Text('Türk Lirası (TRY)'),
+              title: Text('Türk Lirası (TRY)'),
               trailing: currentCurrency == 'TRY'
-                  ? const Icon(Icons.check, color: AppColors.primary)
+                  ? Icon(Icons.check, color: AppColors.primary)
                   : null,
               onTap: () {
                 ref.read(currencyProvider.notifier).setCurrency('TRY');
@@ -78,9 +78,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             Text('Fiyat Yenileme Sıklığı', style: AppTextStyles.headlineSm),
             const SizedBox(height: AppSpacing.md),
             _buildRefreshOption(30, '30 saniye (Hızlı)'),
-            const Divider(height: 1, color: AppColors.borderDivider),
+            Divider(height: 1, color: AppColors.borderDivider),
             _buildRefreshOption(60, '60 saniye (Önerilen)'),
-            const Divider(height: 1, color: AppColors.borderDivider),
+            Divider(height: 1, color: AppColors.borderDivider),
             _buildRefreshOption(300, '5 dakika (Kota Tasarrufu)'),
           ],
         ),
@@ -91,7 +91,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget _buildRefreshOption(int seconds, String label) {
     return ListTile(
       title: Text(label),
-      trailing: _refreshSeconds == seconds ? const Icon(Icons.check, color: AppColors.primary) : null,
+      trailing: _refreshSeconds == seconds ? Icon(Icons.check, color: AppColors.primary) : null,
       onTap: () {
         setState(() => _refreshSeconds = seconds);
         ref.read(settingsRepositoryProvider).setRefreshSeconds(seconds);
@@ -122,7 +122,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             height: 220,
             child: ListView.separated(
               itemCount: result.errors.length,
-              separatorBuilder: (_, _) => const Divider(height: 1, color: AppColors.borderDivider),
+              separatorBuilder: (_, _) => Divider(height: 1, color: AppColors.borderDivider),
               itemBuilder: (context, i) {
                 final err = result.errors[i];
                 return Padding(
@@ -138,7 +138,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Kapat', style: TextStyle(color: AppColors.primary)),
+              child: Text('Kapat', style: TextStyle(color: AppColors.primary)),
             ),
           ],
         ),
@@ -167,7 +167,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('İptal', style: TextStyle(color: AppColors.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -215,11 +215,39 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 );
               }
             },
-            child: const Text('YÜKLE'),
+            child: Text('YÜKLE'),
           ),
         ],
       ),
     );
+  }
+
+  void _showThemeInfo() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface1,
+        title: Text('Arayüz Teması', style: AppTextStyles.headlineSm),
+        content: Text(
+          'Chronomind, finansal verilerin okunabilirliğini artıran ve OLED ekranlarda pil tasarrufu sağlayan Obsidian Precision Karanlık Teması ile çalışır.',
+          style: AppTextStyles.bodyMd,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Anladım', style: TextStyle(color: AppColors.primary)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Rect _getShareOrigin() {
+    final box = context.findRenderObject() as RenderBox?;
+    if (box != null && box.hasSize) {
+      return box.localToGlobal(Offset.zero) & box.size;
+    }
+    return const Rect.fromLTWH(0, 0, 300, 300);
   }
 
   void _showSampleCsvTemplate() {
@@ -233,34 +261,87 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface1,
         title: Text('CSV Şablonu', style: AppTextStyles.headlineSm),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Dosyanız şu formatta olmalıdır:', style: AppTextStyles.bodySm),
-            const SizedBox(height: AppSpacing.sm),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.inputInset,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: AppColors.borderCard),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Dosyanız şu formatta olmalıdır:', style: AppTextStyles.bodySm),
+              const SizedBox(height: AppSpacing.sm),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.inputInset,
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: AppColors.borderCard),
+                ),
+                child: SelectableText(
+                  template,
+                  style: TextStyle(fontFamily: 'monospace', fontSize: 12, color: AppColors.textPrimary),
+                ),
               ),
-              child: const SelectableText(
-                template,
-                style: TextStyle(fontFamily: 'monospace', fontSize: 12, color: AppColors.textPrimary),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Kapat', style: TextStyle(color: AppColors.primary)),
+            child: Text('Kapat', style: TextStyle(color: AppColors.textSecondary)),
+          ),
+          ElevatedButton.icon(
+            icon: Icon(Icons.file_download_outlined, size: 16),
+            label: Text('Şablonu .CSV İndir'),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final origin = _getShareOrigin();
+              await ref.read(csvServiceProvider).exportSampleTemplateCsvFile(sharePositionOrigin: origin);
+            },
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _handleCsvExport() async {
+    final txList = ref.read(transactionsProvider).value ?? [];
+    final assets = ref.read(assetsProvider).value ?? Asset.defaultAssets;
+    final origin = _getShareOrigin();
+
+    try {
+      final csvService = ref.read(csvServiceProvider);
+      if (txList.isEmpty) {
+        // İşlem listesi boş olsa bile kullanıcıya hatasız başlık satırlı boş CSV şablonu sunulur
+        await csvService.exportSampleTemplateCsvFile(sharePositionOrigin: origin);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Kayıtlı işlem olmadığından CSV başlık şablonu dışa aktarıldı.'),
+              backgroundColor: AppColors.profit,
+            ),
+          );
+        }
+        return;
+      }
+
+      await csvService.exportTransactionsToCsvFile(txList, assets, sharePositionOrigin: origin);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${txList.length} işlem .csv dosyası olarak paylaşıldı.'),
+            backgroundColor: AppColors.profit,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('CSV dışa aktarma hatası: $e'),
+            backgroundColor: AppColors.loss,
+          ),
+        );
+      }
+    }
   }
 
   void _confirmDeleteAccount() {
@@ -276,7 +357,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Vazgeç', style: TextStyle(color: AppColors.textSecondary)),
+            child: Text('Vazgeç', style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.loss),
@@ -287,7 +368,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 context.go('/login');
               }
             },
-            child: const Text('KALICI OLARAK SİL'),
+            child: Text('KALICI OLARAK SİL'),
           ),
         ],
       ),
@@ -302,7 +383,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppColors.canvas,
       appBar: AppBar(
-        title: const Text('Ayarlar'),
+        title: Text('Ayarlar'),
       ),
       body: SafeArea(
         child: ListView(
@@ -322,12 +403,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     Container(
                       width: 44,
                       height: 44,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.surface2,
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
-                      child: const Icon(Icons.person, color: AppColors.primary),
+                      child: Icon(Icons.person, color: AppColors.primary),
                     ),
                     const SizedBox(width: AppSpacing.md),
                     Expanded(
@@ -365,17 +446,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   onTap: _showRefreshPicker,
                 ),
                 _buildTile(
-                  icon: Icons.dark_mode,
+                  icon: Icons.dark_mode_rounded,
                   title: 'Arayüz Teması',
-                  subtitle: 'Obsidian Precision Koyu (Varsayılan)',
-                  onTap: () {},
+                  subtitle: 'Obsidian Precision Koyu (OLED Aktif)',
+                  trailing: const Text(
+                    'Karanlık',
+                    style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: 13),
+                  ),
+                  onTap: _showThemeInfo,
                 ),
               ],
             ),
             const SizedBox(height: AppSpacing.lg),
 
             _buildSection(
-              title: 'VERİ YÖNETİMİ',
+              title: 'CSV & VERİ YÖNETİMİ',
               children: [
                 _buildTile(
                   icon: Icons.file_upload_outlined,
@@ -386,14 +471,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 _buildTile(
                   icon: Icons.description_outlined,
                   title: 'Örnek CSV Şablonu',
-                  subtitle: 'Formatı ve örnek satırları görüntüle',
+                  subtitle: 'Formatı görüntüle ve .csv olarak indir',
                   onTap: _showSampleCsvTemplate,
                 ),
                 _buildTile(
                   icon: Icons.file_download_outlined,
                   title: 'Verileri Dışa Aktar',
-                  subtitle: 'K/Z Geçmişi ekranından CSV formatında indir',
-                  onTap: () => context.go('/history'),
+                  subtitle: 'Tüm işlemleri .csv dosyası olarak dışa aktar',
+                  onTap: _handleCsvExport,
                 ),
               ],
             ),
@@ -434,6 +519,56 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
             const SizedBox(height: AppSpacing.xl),
+            Center(
+              child: Column(
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: AppColors.primaryBright.withValues(alpha: 0.35),
+                        width: 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryBright.withValues(alpha: 0.18),
+                          blurRadius: 14,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+                      child: Image.asset(
+                        'assets/icons/app_icon.png',
+                        width: 52,
+                        height: 52,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    'Chronomind Crypto Portfolio',
+                    style: AppTextStyles.bodyMd.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Sürüm 1.0.0 · Pure Dark Obsidian',
+                    style: AppTextStyles.labelSm.copyWith(
+                      color: AppColors.textMuted,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xxl),
           ],
         ),
       ),
@@ -480,7 +615,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       subtitle: subtitle != null
           ? Text(subtitle, style: AppTextStyles.bodySm.copyWith(color: AppColors.textMuted))
           : null,
-      trailing: trailing ?? const Icon(Icons.chevron_right, color: AppColors.textMuted, size: 18),
+      trailing: trailing ?? Icon(Icons.chevron_right, color: AppColors.textMuted, size: 18),
       onTap: onTap,
     );
   }

@@ -67,7 +67,7 @@ class ErrorView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.error_outline_rounded,
                 color: AppColors.lossText,
                 size: 40,
@@ -86,8 +86,8 @@ class ErrorView extends StatelessWidget {
               const SizedBox(height: AppSpacing.md),
               ElevatedButton.icon(
                 onPressed: onRetry,
-                icon: const Icon(Icons.refresh_rounded, size: 18),
-                label: const Text('YENİDEN DENE'),
+                icon: Icon(Icons.refresh_rounded, size: 18),
+                label: Text('YENİDEN DENE'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(160, 40),
                 ),
@@ -149,7 +149,7 @@ class EmptyStateView extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 ElevatedButton.icon(
                   onPressed: onAction,
-                  icon: const Icon(Icons.add, size: 18),
+                  icon: Icon(Icons.add, size: 18),
                   label: Text(actionLabel!),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(180, 42),

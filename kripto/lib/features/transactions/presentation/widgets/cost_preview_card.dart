@@ -40,7 +40,8 @@ class CostPreviewCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Eldeki Bakiye', style: AppTextStyles.bodySm),
+              Flexible(child: Text('Eldeki Bakiye', style: AppTextStyles.bodySm, overflow: TextOverflow.ellipsis)),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 '${AppFormatters.formatQuantity(heldQuantity)} $assetSymbol',
                 style: AppTextStyles.labelNumericMd.copyWith(color: AppColors.textSecondary),
@@ -48,15 +49,19 @@ class CostPreviewCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          const Divider(height: 1, color: AppColors.borderDivider),
+          Divider(height: 1, color: AppColors.borderDivider),
           const SizedBox(height: AppSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                isBuy ? 'Yeni Ortalama Maliyet' : 'Mevcut Ortalama Maliyet',
-                style: AppTextStyles.bodySm,
+              Flexible(
+                child: Text(
+                  isBuy ? 'Yeni Ortalama Maliyet' : 'Mevcut Ortalama Maliyet',
+                  style: AppTextStyles.bodySm,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 AppFormatters.formatCurrency(newAverageCost, currency),
                 style: AppTextStyles.labelNumericMd.copyWith(
@@ -71,7 +76,8 @@ class CostPreviewCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tahmini Gerçekleşen K/Z', style: AppTextStyles.bodySm),
+                Flexible(child: Text('Tahmini Gerçekleşen K/Z', style: AppTextStyles.bodySm, overflow: TextOverflow.ellipsis)),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   AppFormatters.formatCurrency(estimatedPnl!, currency),
                   style: AppTextStyles.labelNumericMd.copyWith(
@@ -82,12 +88,13 @@ class CostPreviewCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: AppSpacing.sm),
-          const Divider(height: 1, color: AppColors.borderDivider),
+          Divider(height: 1, color: AppColors.borderDivider),
           const SizedBox(height: AppSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Toplam İşlem Tutarı', style: AppTextStyles.bodySm),
+              Flexible(child: Text('Toplam İşlem Tutarı', style: AppTextStyles.bodySm, overflow: TextOverflow.ellipsis)),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 AppFormatters.formatCurrency(totalAmount, currency),
                 style: AppTextStyles.labelNumericMd,

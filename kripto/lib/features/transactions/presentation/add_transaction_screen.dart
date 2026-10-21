@@ -14,7 +14,7 @@ class AddTransactionScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Yeni İşlem Ekle', style: AppTextStyles.headlineSm),
         leading: IconButton(
-          icon: const Icon(Icons.close, color: AppColors.textPrimary),
+          icon: Icon(Icons.close, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

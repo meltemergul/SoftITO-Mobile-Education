@@ -144,7 +144,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     );
                   }
                 },
-                child: const Text('SIFIRLAMA BAĞLANTISI GÖNDER'),
+                child: Text('SIFIRLAMA BAĞLANTISI GÖNDER'),
               ),
             ],
           ),
@@ -173,25 +173,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   // Logo ve Marka
                   Center(
                     child: Container(
-                      width: 64,
-                      height: 64,
                       decoration: BoxDecoration(
-                        color: AppColors.surface2,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderCard, width: 1),
+                        borderRadius: BorderRadius.circular(18),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.15),
-                            blurRadius: 20,
+                            color: AppColors.primary.withValues(alpha: 0.25),
+                            blurRadius: 24,
                             spreadRadius: 2,
                           ),
                         ],
                       ),
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.candlestick_chart,
-                        color: AppColors.primary,
-                        size: 32,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Image.asset(
+                          'assets/icons/app_icon.png',
+                          width: 72,
+                          height: 72,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -288,7 +287,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.error_outline, color: AppColors.lossText, size: 18),
+                          Icon(Icons.error_outline, color: AppColors.lossText, size: 18),
                           const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: Text(
@@ -313,7 +312,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.check_circle_outline, color: AppColors.profitText, size: 18),
+                          Icon(Icons.check_circle_outline, color: AppColors.profitText, size: 18),
                           const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: Text(
@@ -333,7 +332,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     style: AppTextStyles.bodyMd.copyWith(color: AppColors.textPrimary),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'E-posta',
                       hintText: 'ornek@email.com',
                       prefixIcon: Icon(Icons.mail_outline, color: AppColors.textSecondary, size: 20),
@@ -358,7 +357,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: InputDecoration(
                       labelText: 'Şifre',
                       hintText: '••••••••',
-                      prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textSecondary, size: 20),
+                      prefixIcon: Icon(Icons.lock_outline, color: AppColors.textSecondary, size: 20),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
@@ -386,7 +385,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       controller: _confirmPasswordController,
                       obscureText: _obscurePassword,
                       style: AppTextStyles.bodyMd.copyWith(color: AppColors.textPrimary),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Şifre Tekrar',
                         hintText: '••••••••',
                         prefixIcon: Icon(Icons.lock_outline, color: AppColors.textSecondary, size: 20),
@@ -423,7 +422,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ElevatedButton(
                     onPressed: isLoading ? null : _handleSubmit,
                     child: isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
@@ -432,6 +431,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           )
                         : Text(_isSignUp ? 'HESAP OLUŞTUR' : 'GİRİŞ YAP'),
+                  ),
+
+                  const SizedBox(height: AppSpacing.md),
+
+                  // Misafir Modu (Kayıt Olmadan Canlı Piyasa ve Simülasyon)
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      ref.read(isGuestModeProvider.notifier).enableGuest();
+                      context.go('/dashboard');
+                    },
+                    icon: Icon(Icons.explore_outlined, size: 18, color: AppColors.primaryBright),
+                    label: Text(
+                      'Misafir Modu ile İncele',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: AppColors.borderCard),
+                      backgroundColor: AppColors.surface1,
+                      foregroundColor: AppColors.textSecondary,
+                    ),
                   ),
 
                   const SizedBox(height: AppSpacing.lg),
@@ -449,7 +469,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.info_outline, color: AppColors.primary, size: 16),
+                              Icon(Icons.info_outline, color: AppColors.primary, size: 16),
                               const SizedBox(width: AppSpacing.xs),
                               Text(
                                 'Yerel Geliştirme Modu',
@@ -465,7 +485,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           const SizedBox(height: AppSpacing.sm),
                           OutlinedButton(
                             onPressed: () => context.go('/dashboard'),
-                            child: const Text('DASHBOARD\'A GEÇ (DEMO)'),
+                            child: Text('DASHBOARD\'A GEÇ (DEMO)'),
                           ),
                         ],
                       ),

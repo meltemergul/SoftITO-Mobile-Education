@@ -124,18 +124,29 @@ class _DonutChartState extends State<DonutChart> {
               sections: sections,
             ),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                AppFormatters.formatCurrency(widget.totalValue, widget.currency),
-                style: AppTextStyles.labelNumericLg.copyWith(fontSize: 22),
-              ),
-              Text(
-                'TOPLAM DEĞER',
-                style: AppTextStyles.caption.copyWith(letterSpacing: 1),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 120),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      AppFormatters.formatCurrency(widget.totalValue, widget.currency),
+                      style: AppTextStyles.labelNumericLg.copyWith(fontSize: 20),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'TOPLAM DEĞER',
+                  style: AppTextStyles.caption.copyWith(letterSpacing: 1, fontSize: 10),
+                ),
+              ],
+            ),
           ),
         ],
       ),

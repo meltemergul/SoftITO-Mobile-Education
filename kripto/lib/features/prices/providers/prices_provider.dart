@@ -49,7 +49,9 @@ class PricesNotifier extends AsyncNotifier<List<PriceInfo>> with WidgetsBindingO
     final initialPrices = await repo.getCachedPrices();
 
     if (initialPrices.isNotEmpty) {
-      ref.read(lastPriceUpdateProvider.notifier).setTime(DateTime.now());
+      Future.microtask(() {
+        ref.read(lastPriceUpdateProvider.notifier).setTime(DateTime.now());
+      });
     }
 
     _startTimer();

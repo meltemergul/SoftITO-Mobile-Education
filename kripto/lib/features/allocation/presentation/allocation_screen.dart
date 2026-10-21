@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -54,7 +55,7 @@ class _AllocationScreenState extends ConsumerState<AllocationScreen> {
                 ],
               ),
               const SizedBox(height: AppSpacing.md),
-              const Divider(height: 1, color: AppColors.borderDivider),
+              Divider(height: 1, color: AppColors.borderDivider),
               const SizedBox(height: AppSpacing.md),
               _buildDetailRow('Eldeki Adet', AppFormatters.formatQuantity(pos.quantity)),
               _buildDetailRow('Ortalama Maliyet', AppFormatters.formatCurrency(pos.averageBuyPrice, currency)),
@@ -63,7 +64,7 @@ class _AllocationScreenState extends ConsumerState<AllocationScreen> {
               _buildDetailRow(
                 'Kâr / Zarar Tutarı',
                 AppFormatters.formatCurrency(pos.unrealizedPnl, currency),
-                valColor: pos.unrealizedPnl >= pos.unrealizedPnlPercentage ? AppColors.profitText : AppColors.lossText,
+                valColor: pos.unrealizedPnl >= Decimal.zero ? AppColors.profitText : AppColors.lossText,
               ),
               const SizedBox(height: AppSpacing.lg),
             ],
@@ -79,8 +80,26 @@ class _AllocationScreenState extends ConsumerState<AllocationScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTextStyles.bodySm),
-          Text(value, style: AppTextStyles.labelNumericMd.copyWith(color: valColor ?? AppColors.textPrimary)),
+          Expanded(
+            child: Text(
+              label,
+              style: AppTextStyles.bodySm,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: Text(
+                value,
+                style: AppTextStyles.labelNumericMd.copyWith(color: valColor ?? AppColors.textPrimary),
+                maxLines: 1,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -96,7 +115,7 @@ class _AllocationScreenState extends ConsumerState<AllocationScreen> {
     return Scaffold(
       backgroundColor: AppColors.canvas,
       appBar: AppBar(
-        title: const Text('Varlık Dağılımı'),
+        title: Text('Varlık Dağılımı'),
       ),
       body: SafeArea(
         child: txAsync.isLoading && !txAsync.hasValue
@@ -140,7 +159,7 @@ class _AllocationScreenState extends ConsumerState<AllocationScreen> {
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.warning_amber_rounded, color: Color(0xFFFBBF24), size: 20),
+                                    Icon(Icons.warning_amber_rounded, color: Color(0xFFFBBF24), size: 20),
                                     const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: Text(
