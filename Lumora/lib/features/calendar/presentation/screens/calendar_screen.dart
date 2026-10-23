@@ -97,9 +97,11 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                   const SizedBox(height: AppSpacing.s16),
                 ],
 
-                // Yükleme Durumu
+                // Yükleme ve Hata Durumları
                 if (state.isLoading && state.calendarData == null)
                   const CalendarSkeleton()
+                else if (state.errorMessage != null && state.calendarData == null)
+                  _buildFullErrorCard(state.errorMessage!, () => notifier.loadCalendar(force: true), colors)
                 else if (state.calendarData != null)
                   ..._buildCalendarContent(state.calendarData!, colors, weekStartsOn),
               ],
@@ -171,6 +173,50 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             'Alışkanlıklarını tamamladıkça zincirin burada parlayacak.',
             style: AppTypography.caption.copyWith(color: colors.textSecondary),
             textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFullErrorCard(
+    String error,
+    VoidCallback onRetry,
+    AppColorsExtension colors,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.s24),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: AppRadius.cardRadius,
+        border: Border.all(color: colors.border),
+      ),
+      child: Column(
+        children: [
+          Icon(Icons.cloud_off_rounded, size: 48, color: Colors.redAccent.shade200),
+          const SizedBox(height: AppSpacing.s12),
+          Text(
+            'Takvim Verileri Yüklenemedi',
+            style: AppTypography.heading.copyWith(color: colors.textPrimary),
+          ),
+          const SizedBox(height: AppSpacing.s8),
+          Text(
+            error,
+            style: AppTypography.bodySmall.copyWith(color: colors.textSecondary),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.s16),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colors.primaryStrong,
+              foregroundColor: colors.textOnPrimary,
+              shape: const StadiumBorder(),
+              minimumSize: const Size(120, AppSpacing.minTouchTarget),
+            ),
+            icon: const Icon(Icons.refresh_rounded, size: 18),
+            label: const Text('Tekrar Dene'),
+            onPressed: onRetry,
           ),
         ],
       ),

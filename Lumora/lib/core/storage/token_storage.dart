@@ -5,7 +5,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// açıksa flutter_secure_storage (Keychain / Keystore) ile kalıcı saklanır.
 class TokenStorage {
   TokenStorage({FlutterSecureStorage? secureStorage})
-      : _storage = secureStorage ?? const FlutterSecureStorage();
+      : _storage = secureStorage ??
+            const FlutterSecureStorage(
+              mOptions: MacOsOptions(
+                usesDataProtectionKeychain: false,
+              ),
+            );
 
   final FlutterSecureStorage _storage;
   static const String _keyToken = 'lumora_jwt_token';
@@ -17,9 +22,15 @@ class TokenStorage {
   Future<void> saveToken(String token, {bool persist = true}) async {
     _inMemoryToken = token;
     if (persist) {
-      await _storage.write(key: _keyToken, value: token);
+      try {
+        await _storage.write(key: _keyToken, value: token);
+      } catch (_) {
+        // macOS Keychain entitlement veya developer team hatası durumunda in-memory çalışmaya devam eder
+      }
     } else {
-      await _storage.delete(key: _keyToken);
+      try {
+        await _storage.delete(key: _keyToken);
+      } catch (_) {}
     }
   }
 
@@ -28,15 +39,21 @@ class TokenStorage {
     if (_inMemoryToken != null) {
       return _inMemoryToken;
     }
-    final persisted = await _storage.read(key: _keyToken);
-    _inMemoryToken = persisted;
-    return persisted;
+    try {
+      final persisted = await _storage.read(key: _keyToken);
+      _inMemoryToken = persisted;
+      return persisted;
+    } catch (_) {
+      return _inMemoryToken;
+    }
   }
 
   /// Token silme (çıkış yapıldığında)
   Future<void> clearToken() async {
     _inMemoryToken = null;
-    await _storage.delete(key: _keyToken);
+    try {
+      await _storage.delete(key: _keyToken);
+    } catch (_) {}
   }
 
   /// Token var mı kontrolü

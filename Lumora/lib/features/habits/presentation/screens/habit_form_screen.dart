@@ -9,6 +9,9 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_toggle.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../providers/habit_notifier.dart';
+import '../../../home/presentation/providers/today_notifier.dart';
+import '../../../statistics/presentation/providers/stats_notifier.dart';
+import '../../../calendar/presentation/providers/calendar_notifier.dart';
 
 const List<String> kAvailableIcons = [
   'water_drop',
@@ -272,6 +275,11 @@ class _HabitFormScreenState extends ConsumerState<HabitFormScreen> {
         );
       }
 
+      // Alışkanlık kaydedildiğinde Bugün, İstatistik ve Takvim sağlayıcılarını güncelle
+      ref.read(todayNotifierProvider.notifier).loadToday(force: true);
+      ref.invalidate(statsNotifierProvider);
+      ref.invalidate(calendarNotifierProvider);
+
       if (mounted) {
         Navigator.of(context).pop(true);
       }
@@ -333,15 +341,19 @@ class _HabitFormScreenState extends ConsumerState<HabitFormScreen> {
           ),
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                minimumSize: const Size(88, AppSpacing.minTouchTarget),
+              ),
               onPressed: () => Navigator.of(ctx).pop(false),
               child: Text(
                 'Vazgeç',
-                style: AppTypography.caption.copyWith(color: colors.textSecondary),
+                style: AppTypography.bodySmall.copyWith(color: colors.textSecondary),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: colors.streakStrong,
+                minimumSize: const Size(88, AppSpacing.minTouchTarget),
                 shape: const RoundedRectangleBorder(
                   borderRadius: AppRadius.pillRadius,
                 ),
@@ -349,7 +361,10 @@ class _HabitFormScreenState extends ConsumerState<HabitFormScreen> {
               onPressed: () => Navigator.of(ctx).pop(true),
               child: Text(
                 'Evet, Sil',
-                style: AppTypography.caption.copyWith(color: Colors.white),
+                style: AppTypography.bodySmall.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -363,6 +378,12 @@ class _HabitFormScreenState extends ConsumerState<HabitFormScreen> {
       });
       try {
         await ref.read(habitNotifierProvider.notifier).deleteHabit(widget.initialHabit!.id);
+
+        // Alışkanlık silindiğinde ilgili ekranları güncelle
+        ref.read(todayNotifierProvider.notifier).loadToday(force: true);
+        ref.invalidate(statsNotifierProvider);
+        ref.invalidate(calendarNotifierProvider);
+
         if (mounted) {
           Navigator.of(context).pop(true);
         }
@@ -390,6 +411,11 @@ class _HabitFormScreenState extends ConsumerState<HabitFormScreen> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
+          tooltip: 'Geri Dön',
+          constraints: const BoxConstraints(
+            minWidth: AppSpacing.minTouchTarget,
+            minHeight: AppSpacing.minTouchTarget,
+          ),
           icon: Icon(Icons.arrow_back_ios_new_rounded, color: colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),

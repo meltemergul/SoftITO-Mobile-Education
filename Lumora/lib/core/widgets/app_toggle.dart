@@ -25,15 +25,19 @@ class AppToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    Widget switchWidget = Switch.adaptive(
-      value: value,
-      onChanged: onChanged,
-      activeThumbColor: colors.textOnPrimary,
-      activeTrackColor: colors.primary,
-      inactiveThumbColor: colors.textSecondary,
-      inactiveTrackColor: colors.inactive,
-      trackOutlineColor: WidgetStateProperty.resolveWith(
-        (states) => Colors.transparent,
+    Widget switchWidget = Semantics(
+      toggled: value,
+      label: title ?? 'Aç/Kapa anahtarı',
+      child: Switch.adaptive(
+        value: value,
+        onChanged: onChanged,
+        activeThumbColor: colors.textOnPrimary,
+        activeTrackColor: colors.primaryStrong,
+        inactiveThumbColor: colors.textSecondary,
+        inactiveTrackColor: colors.inactive,
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (states) => Colors.transparent,
+        ),
       ),
     );
 
@@ -68,23 +72,32 @@ class AppToggle extends StatelessWidget {
           ),
         ),
         if (time != null) ...[
-          InkWell(
-            onTap: onTimeTap,
-            borderRadius: AppRadius.pillRadius,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.s12,
-                vertical: AppSpacing.s4,
-              ),
-              decoration: BoxDecoration(
-                color: colors.inactive,
-                borderRadius: AppRadius.pillRadius,
-              ),
-              child: Text(
-                time!,
-                style: AppTypography.caption.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: FontWeight.w700,
+          Semantics(
+            button: true,
+            label: '$title hatırlatma saati: $time. Değiştirmek için dokunun.',
+            child: InkWell(
+              onTap: onTimeTap,
+              borderRadius: AppRadius.pillRadius,
+              child: Container(
+                constraints: const BoxConstraints(
+                  minHeight: AppSpacing.minTouchTarget,
+                  minWidth: AppSpacing.minTouchTarget,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.s12,
+                  vertical: AppSpacing.s8,
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: colors.inactive,
+                  borderRadius: AppRadius.pillRadius,
+                ),
+                child: Text(
+                  time!,
+                  style: AppTypography.caption.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),

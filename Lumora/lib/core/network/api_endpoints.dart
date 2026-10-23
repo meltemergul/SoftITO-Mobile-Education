@@ -38,4 +38,14 @@ abstract class ApiEndpoints {
   // Stats uç noktaları
   static const String stats = '/stats';
   static String statsWithRange(String range) => '/stats?range=$range';
+
+  // Badges ve Level uç noktaları
+  static const String badges = '/badges';
+  static const String level = '/level';
+
+  // Profile, Settings, Export & Account uç noktaları
+  static const String profile = '/profile';
+  static const String settings = '/settings';
+  static String exportData(String format) => '/export?format=$format';
+  static const String account = '/account';
 }

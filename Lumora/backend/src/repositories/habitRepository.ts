@@ -14,6 +14,7 @@ export interface HabitRepository {
   create(userId: string, input: CreateHabitInput): Promise<Habit>;
   update(userId: string, id: string, patch: UpdateHabitInput): Promise<Habit>;
   archive(userId: string, id: string): Promise<void>;
+  deleteAllByUser(userId: string): Promise<void>;
 }
 
 export class JsonHabitRepository implements HabitRepository {
@@ -127,5 +128,9 @@ export class JsonHabitRepository implements HabitRepository {
     if (!found) {
       throw new Error(`Alışkanlık bulunamadı: ${id}`);
     }
+  }
+
+  public async deleteAllByUser(userId: string): Promise<void> {
+    await this.store.update((habits) => habits.filter((h) => h.userId !== userId));
   }
 }

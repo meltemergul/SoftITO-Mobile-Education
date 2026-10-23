@@ -59,7 +59,10 @@ class MonthPickerHeader extends StatelessWidget {
                 size: 28,
               ),
               padding: const EdgeInsets.all(AppSpacing.s8),
-              constraints: const BoxConstraints(),
+              constraints: const BoxConstraints(
+                minWidth: AppSpacing.minTouchTarget,
+                minHeight: AppSpacing.minTouchTarget,
+              ),
               onPressed: onPreviousMonth,
             ),
             const SizedBox(width: AppSpacing.s4),
@@ -71,7 +74,10 @@ class MonthPickerHeader extends StatelessWidget {
                 size: 28,
               ),
               padding: const EdgeInsets.all(AppSpacing.s8),
-              constraints: const BoxConstraints(),
+              constraints: const BoxConstraints(
+                minWidth: AppSpacing.minTouchTarget,
+                minHeight: AppSpacing.minTouchTarget,
+              ),
               onPressed: onNextMonth,
             ),
           ],

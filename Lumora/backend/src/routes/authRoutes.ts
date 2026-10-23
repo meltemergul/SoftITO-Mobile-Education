@@ -10,7 +10,7 @@ export function createAuthRouter(customAuthService?: AuthService): Router {
   const authService = customAuthService || new AuthService(new JsonUserRepository());
   const authController = new AuthController(authService);
 
-  router.post('/register', authController.register);
+  router.post('/register', authLimiter, authController.register);
   router.post('/login', authLimiter, authController.login);
   router.post('/guest', authController.guest);
   router.post('/upgrade', authMiddleware, authController.upgrade);

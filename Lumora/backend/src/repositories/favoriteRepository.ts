@@ -8,6 +8,7 @@ export interface FavoriteRepository {
   addFavorite(userId: string, quoteId: string): Promise<void>;
   removeFavorite(userId: string, quoteId: string): Promise<void>;
   listFavorites(userId: string): Promise<FavoriteRecord[]>;
+  deleteAllByUser(userId: string): Promise<void>;
 }
 
 const favoritesArraySchema = z.array(favoriteRecordSchema);
@@ -63,5 +64,9 @@ export class JsonFavoriteRepository implements FavoriteRepository {
   public async listFavorites(userId: string): Promise<FavoriteRecord[]> {
     const list = await this.store.read();
     return list.filter((f) => f.userId === userId).map((f) => ({ ...f }));
+  }
+
+  public async deleteAllByUser(userId: string): Promise<void> {
+    await this.store.update((list) => list.filter((f) => f.userId !== userId));
   }
 }

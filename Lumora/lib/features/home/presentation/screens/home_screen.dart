@@ -153,9 +153,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: AppSpacing.s12),
                 ],
 
-                // 3. Yükleme Durumu (İskelet)
+                // 3. Yükleme ve Hata Durumları
                 if (state.isLoading && state.todayData == null)
                   const TodaySkeletonLoading()
+                else if (state.errorMessage != null && state.todayData == null)
+                  _buildErrorState(context, colors, state.errorMessage!, () => notifier.loadToday(force: true))
                 else if (state.todayData != null) ...[
                   // 4. Günün İlhamı Kartı
                   const InspirationQuoteCard(),
@@ -258,10 +260,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           const SizedBox(height: AppSpacing.s16),
           AppPillButton(
             label: '+ Yeni Alışkanlık Ekle',
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              final created = await Navigator.of(context).push<bool>(
                 MaterialPageRoute(builder: (_) => const HabitFormScreen()),
               );
+              if (created == true) {
+                ref.read(todayNotifierProvider.notifier).loadToday(force: true);
+              }
             },
           ),
         ],
@@ -292,6 +297,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             'Bugün için planlanmış bir alışkanlığınız bulunmuyor. Zihninizi ve bedeninizi dinlendirip enerji toplayın.',
             textAlign: TextAlign.center,
             style: AppTypography.bodySmall.copyWith(color: colors.textSecondary),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Hata Durumu: Veri yüklenemediğinde tekrar deneme
+  Widget _buildErrorState(
+    BuildContext context,
+    AppColorsExtension colors,
+    String error,
+    VoidCallback onRetry,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.s24),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: AppRadius.cardRadius,
+        border: Border.all(color: colors.border),
+      ),
+      child: Column(
+        children: [
+          Icon(Icons.cloud_off_rounded, size: 48, color: Colors.redAccent.shade200),
+          const SizedBox(height: AppSpacing.s12),
+          Text(
+            'Veriler Yüklenemedi',
+            style: AppTypography.heading.copyWith(color: colors.textPrimary),
+          ),
+          const SizedBox(height: AppSpacing.s8),
+          Text(
+            error,
+            textAlign: TextAlign.center,
+            style: AppTypography.bodySmall.copyWith(color: colors.textSecondary),
+          ),
+          const SizedBox(height: AppSpacing.s16),
+          AppPillButton(
+            label: 'Tekrar Dene',
+            icon: const Icon(Icons.refresh_rounded, size: 18),
+            onPressed: onRetry,
           ),
         ],
       ),

@@ -11,6 +11,7 @@ abstract class AppTheme {
       useMaterial3: true,
       fontFamily: AppTypography.fontFamily,
       scaffoldBackgroundColor: colors.background,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
       colorScheme: ColorScheme.light(
         primary: colors.primaryStrong,
         onPrimary: colors.textOnPrimary,
@@ -41,6 +42,31 @@ abstract class AppTheme {
         ),
         margin: EdgeInsets.zero,
       ),
+      // design-skill.md Bölüm 3: En az 48px dokunma hedefi temadan zorunlu kılınır
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(48, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(48, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          minimumSize: const Size(48, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          minimumSize: const Size(AppSpacing.minTouchTarget, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
     );
   }
 
@@ -53,6 +79,7 @@ abstract class AppTheme {
       useMaterial3: true,
       fontFamily: AppTypography.fontFamily,
       scaffoldBackgroundColor: colors.background,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
       colorScheme: ColorScheme.dark(
         primary: colors.primaryStrong,
         onPrimary: colors.textOnPrimary,
@@ -82,6 +109,31 @@ abstract class AppTheme {
           side: BorderSide(color: Color(0xFF334155)),
         ),
         margin: EdgeInsets.zero,
+      ),
+      // design-skill.md Bölüm 3: En az 48px dokunma hedefi temadan zorunlu kılınır
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(48, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(48, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          minimumSize: const Size(48, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          minimumSize: const Size(AppSpacing.minTouchTarget, AppSpacing.minTouchTarget),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
       ),
     );
   }

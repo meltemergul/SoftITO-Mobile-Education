@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
+import '../../features/home/presentation/providers/today_notifier.dart';
+import '../../features/calendar/presentation/providers/calendar_notifier.dart';
+import '../../features/statistics/presentation/providers/stats_notifier.dart';
+import '../../features/badges/presentation/providers/badges_notifier.dart';
 
 /// mobile_tab kabuğu: 5 ana sekme (Bugün, Takvim, İstatistik, Rozetler, Profil) için
 /// üst çubuk ve alt navigasyon çubuğunu sağlar.
-class MobileTabShell extends StatelessWidget {
+class MobileTabShell extends ConsumerWidget {
   const MobileTabShell({
     super.key,
     required this.navigationShell,
@@ -12,15 +17,33 @@ class MobileTabShell extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(BuildContext context, WidgetRef ref, int index) {
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,
     );
+
+    // Sekmeler arası geçişte veriyi her zaman güncel tut
+    switch (index) {
+      case 0:
+        ref.read(todayNotifierProvider.notifier).loadToday();
+        break;
+      case 1:
+        ref.read(calendarNotifierProvider.notifier).loadCalendar();
+        break;
+      case 2:
+        ref.read(statsNotifierProvider.notifier).loadStats();
+        break;
+      case 3:
+        ref.read(badgesNotifierProvider.notifier).loadData();
+        break;
+      default:
+        break;
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
 
     return Scaffold(
@@ -41,7 +64,7 @@ class MobileTabShell extends StatelessWidget {
         ),
         child: NavigationBar(
           selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: _onItemTapped,
+          onDestinationSelected: (index) => _onItemTapped(context, ref, index),
           backgroundColor: colors.surface,
           indicatorColor: colors.primary.withValues(alpha: 0.15),
           elevation: 0,

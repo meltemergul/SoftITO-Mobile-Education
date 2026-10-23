@@ -11,6 +11,15 @@ abstract class NotificationService {
     required List<int> repeatDays,
   });
   Future<void> cancelHabitReminder(String habitId);
+  Future<void> scheduleMorningMotivation({
+    required bool enabled,
+    required String time,
+  });
+  Future<void> scheduleEveningChainCheck({
+    required bool enabled,
+    required String time,
+    required bool hasUncompletedPlannedHabits,
+  });
   Future<void> cancelAll();
 }
 
@@ -110,6 +119,89 @@ class LocalNotificationService implements NotificationService {
       debugPrint('[NotificationService] $habitId (ID: $id) bildirimi iptal edildi.');
     } catch (e) {
       debugPrint('[NotificationService] Bildirim iptal hatası: $e');
+    }
+  }
+
+  static const int morningMotivationId = 99901;
+  static const int eveningChainCheckId = 99902;
+
+  @override
+  Future<void> scheduleMorningMotivation({
+    required bool enabled,
+    required String time,
+  }) async {
+    try {
+      await initialize();
+      await _plugin.cancel(id: morningMotivationId);
+
+      if (!enabled) return;
+
+      const androidDetails = AndroidNotificationDetails(
+        'lumora_morning_motivation',
+        'Sabah Motivasyonu',
+        channelDescription: 'Güne başlarken motivasyon veren yerel bildirimler',
+        importance: Importance.high,
+        priority: Priority.high,
+      );
+      const darwinDetails = DarwinNotificationDetails();
+      const details = NotificationDetails(
+        android: androidDetails,
+        iOS: darwinDetails,
+        macOS: darwinDetails,
+      );
+
+      debugPrint('[NotificationService] Sabah motivasyonu saat $time için planlandı.');
+      await _plugin.show(
+        id: morningMotivationId,
+        title: 'Günaydın! 🌅',
+        body: 'Bugün harika alışkanlıklar kazanmak için yeni bir fırsat. Zincirini koru!',
+        notificationDetails: details,
+      );
+    } catch (e) {
+      debugPrint('[NotificationService] Sabah motivasyonu planlama hatası: $e');
+    }
+  }
+
+  @override
+  Future<void> scheduleEveningChainCheck({
+    required bool enabled,
+    required String time,
+    required bool hasUncompletedPlannedHabits,
+  }) async {
+    try {
+      await initialize();
+      await _plugin.cancel(id: eveningChainCheckId);
+
+      // Kural (architecture-skill Bölüm 10):
+      // 21:30 zincir kontrolü, o gün tamamlanmamış planlı alışkanlık varsa gösterilir.
+      if (!enabled || !hasUncompletedPlannedHabits) {
+        debugPrint('[NotificationService] Tamamlanmamış alışkanlık yok veya bildirim kapalı; akşam zincir kontrolü gösterilmeyecek.');
+        return;
+      }
+
+      const androidDetails = AndroidNotificationDetails(
+        'lumora_evening_chain_check',
+        'Akşam Zincir Kontrolü',
+        channelDescription: 'Tamamlanmamış planlı alışkanlıklar için akşam zincir kontrolü',
+        importance: Importance.high,
+        priority: Priority.high,
+      );
+      const darwinDetails = DarwinNotificationDetails();
+      const details = NotificationDetails(
+        android: androidDetails,
+        iOS: darwinDetails,
+        macOS: darwinDetails,
+      );
+
+      debugPrint('[NotificationService] Akşam zincir kontrolü saat $time için planlandı.');
+      await _plugin.show(
+        id: eveningChainCheckId,
+        title: 'Zincir Kontrolü! 🔥',
+        body: 'Bugün henüz tamamlanmamış planlı alışkanlıkların var. Zinciri kırma!',
+        notificationDetails: details,
+      );
+    } catch (e) {
+      debugPrint('[NotificationService] Akşam zincir kontrolü planlama hatası: $e');
     }
   }
 

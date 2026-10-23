@@ -14,12 +14,47 @@ import { todayRouter } from './routes/todayRoutes.js';
 import { quoteRouter } from './routes/quoteRoutes.js';
 import { calendarRouter } from './routes/calendarRoutes.js';
 import { statsRouter } from './routes/statsRoutes.js';
+import { badgeRouter, levelRouter } from './routes/badgeRoutes.js';
+import {
+  profileRouter,
+  settingsRouter,
+  exportRouter,
+  accountRouter
+} from './routes/profileRoutes.js';
 
 export const app = express();
 
 // Security and utility middlewares
 app.use(helmet());
-app.use(cors());
+
+const defaultAllowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:3000',
+  'http://localhost:8080'
+];
+
+const configuredOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
+  : defaultAllowedOrigins;
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile applications, native apps, curl, tests)
+      if (!origin) return callback(null, true);
+      if (
+        configuredOrigins.includes(origin) ||
+        process.env.NODE_ENV !== 'production'
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error('CORS: Bu kaynağa erişim yetkisi yok.'));
+    },
+    credentials: true
+  })
+);
+
 app.use(express.json());
 app.use(standardLimiter);
 
@@ -40,6 +75,12 @@ app.use('/today', todayRouter);
 app.use('/quotes', quoteRouter);
 app.use('/calendar', calendarRouter);
 app.use('/stats', statsRouter);
+app.use('/badges', badgeRouter);
+app.use('/level', levelRouter);
+app.use('/profile', profileRouter);
+app.use('/settings', settingsRouter);
+app.use('/export', exportRouter);
+app.use('/account', accountRouter);
 
 // Fallback 404 handler
 app.use((_req: Request, res: Response) => {

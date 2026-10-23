@@ -105,6 +105,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: AppRadius.pillRadius,
                             ),
+                            minimumSize: const Size(120, AppSpacing.minTouchTarget),
                           ),
                           child: const Text('Tekrar Dene'),
                         ),

@@ -9,6 +9,7 @@ import {
 export interface UserSettingsRepository {
   getByUserId(userId: string): Promise<UserSettings>;
   update(userId: string, patch: Partial<UserSettings>): Promise<UserSettings>;
+  deleteAllByUser(userId: string): Promise<void>;
 }
 
 export class JsonUserSettingsRepository implements UserSettingsRepository {
@@ -75,5 +76,9 @@ export class JsonUserSettingsRepository implements UserSettingsRepository {
     }
 
     return result;
+  }
+
+  public async deleteAllByUser(userId: string): Promise<void> {
+    await this.store.update((list) => list.filter((s) => s.userId !== userId));
   }
 }

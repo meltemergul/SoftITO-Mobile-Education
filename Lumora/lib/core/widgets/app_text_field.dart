@@ -55,6 +55,11 @@ class _AppTextFieldState extends State<AppTextField> {
           _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
           color: colors.textSecondary,
         ),
+        tooltip: _obscureText ? 'Şifreyi göster' : 'Şifreyi gizle',
+        constraints: const BoxConstraints(
+          minWidth: AppSpacing.minTouchTarget,
+          minHeight: AppSpacing.minTouchTarget,
+        ),
         onPressed: () {
           setState(() {
             _obscureText = !_obscureText;

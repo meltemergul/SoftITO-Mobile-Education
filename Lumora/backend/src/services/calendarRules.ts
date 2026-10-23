@@ -89,7 +89,7 @@ export function calculateMonthCalendar(params: CalendarMonthCalculationParams): 
       }
     }
 
-    let status: DayStatus = 'empty';
+    let status: DayStatus;
     if (completedCount === totalPlanned) {
       status = 'completed';
       unbrokenDays++;
@@ -240,7 +240,7 @@ export function calculateDayDetail(params: CalendarDayDetailParams): CalendarDay
     });
   }
 
-  let status: DayStatus = 'empty';
+  let status: DayStatus;
   if (isFuture) {
     status = 'future';
   } else if (totalPlanned === 0) {

@@ -37,7 +37,12 @@ class PendingLogOp {
 
 class TodayCacheStorage {
   TodayCacheStorage({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+      : _storage = storage ??
+            const FlutterSecureStorage(
+              mOptions: MacOsOptions(
+                usesDataProtectionKeychain: false,
+              ),
+            );
 
   final FlutterSecureStorage _storage;
   static const _cacheKey = 'lumora_today_cache';

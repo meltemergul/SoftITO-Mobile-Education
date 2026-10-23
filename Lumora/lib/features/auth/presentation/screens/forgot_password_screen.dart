@@ -74,6 +74,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       backgroundColor: colors.background,
       appBar: AppBar(
         leading: IconButton(
+          tooltip: 'Geri Dön',
+          constraints: const BoxConstraints(
+            minWidth: AppSpacing.minTouchTarget,
+            minHeight: AppSpacing.minTouchTarget,
+          ),
           icon: Icon(Icons.arrow_back_rounded, color: colors.textPrimary),
           onPressed: () => context.go('/login'),
         ),

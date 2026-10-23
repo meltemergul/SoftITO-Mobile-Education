@@ -22,6 +22,7 @@ export interface HabitLogRepository {
     amount: number,
     completed: boolean
   ): Promise<HabitLog>;
+  deleteAllByUser(userId: string): Promise<void>;
 }
 
 export class JsonHabitLogRepository implements HabitLogRepository {
@@ -131,5 +132,9 @@ export class JsonHabitLogRepository implements HabitLogRepository {
     }
 
     return resultLog;
+  }
+
+  public async deleteAllByUser(userId: string): Promise<void> {
+    await this.store.update((logs) => logs.filter((l) => l.userId !== userId));
   }
 }

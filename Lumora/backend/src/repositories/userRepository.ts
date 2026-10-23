@@ -7,6 +7,7 @@ export interface UserRepository {
   findByEmail(email: string): Promise<User | null>;
   create(user: User): Promise<User>;
   update(id: string, patch: Partial<User>): Promise<User>;
+  delete(id: string): Promise<void>;
 }
 
 export class JsonUserRepository implements UserRepository {
@@ -65,5 +66,9 @@ export class JsonUserRepository implements UserRepository {
       throw new Error(`Kullanıcı güncellenemedi: ${id}`);
     }
     return updatedUser;
+  }
+
+  public async delete(id: string): Promise<void> {
+    await this.store.update((users) => users.filter((u) => u.id !== id));
   }
 }

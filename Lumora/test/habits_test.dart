@@ -160,6 +160,19 @@ class MockNotificationService implements NotificationService {
   }
 
   @override
+  Future<void> scheduleMorningMotivation({
+    required bool enabled,
+    required String time,
+  }) async {}
+
+  @override
+  Future<void> scheduleEveningChainCheck({
+    required bool enabled,
+    required String time,
+    required bool hasUncompletedPlannedHabits,
+  }) async {}
+
+  @override
   Future<void> cancelAll() async {}
 }
 

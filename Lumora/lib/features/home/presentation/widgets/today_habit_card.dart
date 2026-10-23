@@ -145,24 +145,35 @@ class TodayHabitCard extends StatelessWidget {
           ),
 
           // Tamamla / Geri Al Onay Butonu
-          InkWell(
-            onTap: onToggle,
-            borderRadius: AppRadius.pillRadius,
-            child: Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isDone ? colors.primary : colors.backgroundAlt,
-                border: Border.all(
-                  color: isDone ? colors.primary : colors.border,
-                  width: 1.5,
+          Semantics(
+            button: true,
+            label: '${habit.name} alışkanlığını ${isDone ? "tamamlanmadı olarak işaretle" : "tamamla"}',
+            child: InkWell(
+              onTap: onToggle,
+              borderRadius: AppRadius.pillRadius,
+              child: Container(
+                constraints: const BoxConstraints(
+                  minWidth: AppSpacing.minTouchTarget,
+                  minHeight: AppSpacing.minTouchTarget,
                 ),
-              ),
-              child: Icon(
-                Icons.check_rounded,
-                color: isDone ? Colors.white : colors.textTertiary,
-                size: 22,
+                alignment: Alignment.center,
+                child: Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isDone ? colors.primaryStrong : colors.backgroundAlt,
+                    border: Border.all(
+                      color: isDone ? colors.primaryStrong : colors.border,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.check_rounded,
+                    color: isDone ? Colors.white : colors.textTertiary,
+                    size: 22,
+                  ),
+                ),
               ),
             ),
           ),
@@ -225,6 +236,11 @@ class TodayHabitCard extends StatelessWidget {
 
               // Hızlı − Butonu
               IconButton(
+                tooltip: '${_formatNumber(habit.step)} ${habit.unit ?? ""} azalt',
+                constraints: const BoxConstraints(
+                  minWidth: AppSpacing.minTouchTarget,
+                  minHeight: AppSpacing.minTouchTarget,
+                ),
                 icon: Icon(Icons.remove_circle_outline_rounded, color: colors.textSecondary),
                 onPressed: () => onAdjust(-habit.step),
               ),
@@ -232,10 +248,10 @@ class TodayHabitCard extends StatelessWidget {
               // Hızlı + Butonu
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isDone ? colors.primary : catColor,
+                  backgroundColor: isDone ? colors.primaryStrong : catColor,
                   shape: const StadiumBorder(),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  minimumSize: Size.zero,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  minimumSize: const Size(48, AppSpacing.minTouchTarget),
                 ),
                 onPressed: () => onAdjust(habit.step),
                 child: Text(
@@ -324,10 +340,10 @@ class TodayHabitCard extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: isDone ? colors.surface : colors.primaryStrong,
-              side: isDone ? BorderSide(color: colors.primary) : BorderSide.none,
+              side: isDone ? BorderSide(color: colors.primaryStrong) : BorderSide.none,
               shape: const StadiumBorder(),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              minimumSize: Size.zero,
+              minimumSize: const Size(88, AppSpacing.minTouchTarget),
             ),
             onPressed: onToggle,
             child: Row(
@@ -336,13 +352,13 @@ class TodayHabitCard extends StatelessWidget {
                 Icon(
                   isDone ? Icons.check_rounded : Icons.play_arrow_rounded,
                   size: 16,
-                  color: isDone ? colors.primary : Colors.white,
+                  color: isDone ? colors.accessibleGreenText : Colors.white,
                 ),
                 const SizedBox(width: 4),
                 Text(
                   isDone ? 'Tamamlandı' : 'Başla',
                   style: AppTypography.caption.copyWith(
-                    color: isDone ? colors.primary : Colors.white,
+                    color: isDone ? colors.accessibleGreenText : Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

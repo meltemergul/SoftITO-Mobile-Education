@@ -67,21 +67,27 @@ class AppPillButton extends StatelessWidget {
       ],
     );
 
-    final button = Material(
-      color: backgroundColor,
-      shape: StadiumBorder(side: side),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: isLoading ? null : onPressed,
-        child: Container(
-          constraints: const BoxConstraints(
-            minHeight: AppSpacing.minTouchTarget,
+    final button = Semantics(
+      button: true,
+      enabled: onPressed != null && !isLoading,
+      label: label,
+      child: Material(
+        color: backgroundColor,
+        shape: StadiumBorder(side: side),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: isLoading ? null : onPressed,
+          child: Container(
+            constraints: const BoxConstraints(
+              minHeight: AppSpacing.minTouchTarget,
+              minWidth: AppSpacing.minTouchTarget,
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s24,
+              vertical: AppSpacing.s12,
+            ),
+            child: content,
           ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.s24,
-            vertical: AppSpacing.s12,
-          ),
-          child: content,
         ),
       ),
     );

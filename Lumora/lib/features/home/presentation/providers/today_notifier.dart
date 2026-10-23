@@ -9,6 +9,8 @@ import '../../domain/entities/today_entity.dart';
 import '../../domain/repositories/today_repository.dart';
 import '../../domain/usecases/get_today_usecase.dart';
 import '../../domain/usecases/update_habit_log_usecase.dart';
+import '../../../statistics/presentation/providers/stats_notifier.dart';
+import '../../../calendar/presentation/providers/calendar_notifier.dart';
 
 // Storage Provider
 final todayCacheStorageProvider = Provider<TodayCacheStorage>((ref) {
@@ -175,6 +177,8 @@ class TodayNotifier extends Notifier<TodayState> {
         date: currentData.date,
         amount: targetAmount,
       );
+      ref.invalidate(statsNotifierProvider);
+      ref.invalidate(calendarNotifierProvider);
     } catch (e) {
       // Hata oluştu -> Optimistic state'i geri al
       state = previousState.copyWith(
@@ -250,6 +254,8 @@ class TodayNotifier extends Notifier<TodayState> {
         date: currentData.date,
         delta: delta,
       );
+      ref.invalidate(statsNotifierProvider);
+      ref.invalidate(calendarNotifierProvider);
     } catch (e) {
       state = previousState.copyWith(
         errorMessage: 'İşlem sunucuya iletilemedi. Değişiklik geri alındı.',

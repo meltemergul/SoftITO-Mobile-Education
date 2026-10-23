@@ -1,242 +1,242 @@
 [
   {
     "id": "q_seed_1",
-    "text": "Küçük adımların sürekliliği, büyük sıçramalardan daha kalıcıdır.",
-    "author": null,
+    "text": "Mükemmel olmak zorunda değilsin, devam etmen yeterli.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_2",
-    "text": "Her gün zincire eklenen bir halka, geleceğini inşa eder.",
-    "author": null,
+    "text": "Bugün attığın küçük bir adım, yarın inşa edeceğin büyük geleceğin en sağlam taşıdır.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_3",
-    "text": "Mükemmel olmak zorunda değilsin, başlamak zorundasın; ama harika olmak için başlamak zorundasın.",
-    "author": null,
+    "text": "Mükemmel başlangıçlar yoktur; vazgeçmeden her gün bir adım atanlar vardır.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_4",
-    "text": "Sabahları uyandığında yaşamanın, nefes almanın, düşünmenin ve sevmenin ne büyük bir ayrıcalık olduğunu düşün.",
-    "author": "Marcus Aurelius",
+    "text": "Kendine şefkat göster; bazen sadece yolda kalmak bile en büyük zaferdir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_5",
-    "text": "Bir mum diğer mumu tutuşturmakla ışığından bir şey kaybetmez.",
-    "author": "Mevlana",
+    "text": "Zinciri kırma, bugün de kendin ve hayallerin için küçük bir şey yap.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_6",
-    "text": "Zor olduğu için cesaret edemiyor değiliz; biz cesaret edemediğimiz için zordur.",
-    "author": "Seneca",
+    "text": "Her gün %1 daha iyi olmak, bir yıl sonra seni hayal bile edemeyeceğin bir zirveye taşır.",
+    "author": "James Clear",
     "source": "fallback"
   },
   {
     "id": "q_seed_7",
-    "text": "Bin millik bir yolculuk tek bir adımla başlar.",
-    "author": "Lao Tzu",
+    "text": "Hata yapmak yolda olmanın bir parçasıdır; önemli olan durmayıp devam edebilmektir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_8",
-    "text": "Nereye gideceğini bilmiyorsan, hangi yoldan gittiğinin hiçbir önemi yoktur.",
-    "author": null,
-    "source": "fallback"
-  },
-  {
-    "id": "q_seed_9",
-    "text": "Bir şeyi gerçekten yapmak isteyen bir yol bulur; istemeyen ise bir mazeret bulur.",
-    "author": null,
-    "source": "fallback"
-  },
-  {
-    "id": "q_seed_10",
-    "text": "En büyük zafer düşmemek değil, her düştüğünde ayağa kalkabilmektir.",
+    "text": "Yavaş ilerlemekten asla korkma, sadece hareketsiz kalmaktan kork.",
     "author": "Konfüçyüs",
     "source": "fallback"
   },
   {
+    "id": "q_seed_9",
+    "text": "Alışkanlıklar başta zorlukla yeşerir, sabırla kolaylaşır ve en sonunda senin karakterin olur.",
+    "author": "Qwen AI",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_10",
+    "text": "Kendini başkalarıyla kıyaslama; dünkü kendinden bir adım öndeysen doğru yoldasın.",
+    "author": "Qwen AI",
+    "source": "fallback"
+  },
+  {
     "id": "q_seed_11",
-    "text": "Bugün yaptıkların, yarınlarını belirler.",
-    "author": null,
+    "text": "En karanlık geceler bile sabahın doğuşunu engelleyemez. İnancını koru ve devam et.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_12",
-    "text": "İlk önce kendine ne olacağını söyle; sonra ne yapman gerekiyorsa onu yap.",
-    "author": "Epiktetos",
+    "text": "Taşı delen suyun şiddeti değil, damlaların bıkmadan usanmadan akmasıdır.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_13",
-    "text": "Taşı delen suyun gücü değil, damlaların sürekliliğidir.",
-    "author": null,
+    "text": "Disiplin, anlık hevesler ile ömür boyu sürecek hayaller arasındaki köprüdür.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_14",
-    "text": "Gündüzleri hedeflerinle yarış, geceleri hayallerinle dinlen.",
-    "author": null,
+    "text": "Bir gün ara versen bile ikinci gün geri dön; süreklilik kusursuzluktan bin kat değerlidir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_15",
-    "text": "Zafer, 'Zafer benimdir' diyebilenindir. Başarı ise, 'Başaracağım' diye başlayarak sonunda 'Başardım' diyebilenindir.",
-    "author": "Mustafa Kemal Atatürk",
+    "text": "Her yeni gün, dünden daha kararlı ve güçlü bir adım atmak için tertemiz bir sayfadır.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_16",
-    "text": "Hafife aldığın küçük alışkanlıklar, zamanla en büyük karakterin olur.",
-    "author": null,
+    "text": "Büyük başarılar, sabırla ve inançla bir araya getirilmiş küçük çabaların toplamıdır.",
+    "author": "Vincent van Gogh",
     "source": "fallback"
   },
   {
     "id": "q_seed_17",
-    "text": "Başlamak için koşulların mükemmel olmasını bekleme; başladığın için koşullar mükemmelleşir.",
-    "author": null,
+    "text": "Bugün hedefin için attığın adımı küçümseme; okyanuslar damlaların birikmesiyle oluşur.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_18",
-    "text": "Dün akıllıydım, dünyayı değiştirmek istedim. Bugün bilgeyim, kendimi değiştiriyorum.",
-    "author": "Mevlana",
+    "text": "Kendine güven; başladığın yolda sonuna kadar yürüyecek irade senin içinde saklı.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_19",
-    "text": "Zihnini yönetemezsen, o seni yönetir.",
-    "author": "Horatius",
+    "text": "Bin millik bir yolculuk tek bir adımla başlar ve yürümeye devam edenlerle tamamlanır.",
+    "author": "Lao Tzu",
     "source": "fallback"
   },
   {
     "id": "q_seed_20",
-    "text": "İrade, her gün yeniden inşa edilen bir kas gibidir.",
-    "author": null,
+    "text": "Bugün kendine bir iyilik yap; bahaneleri bırak ve hedefin için küçük bir adım at.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_21",
-    "text": "Damlaya damlaya göl olur; her gün atılan küçük adımlar büyük başarılar doğurur.",
-    "author": null,
+    "text": "Gelişim bir yarış değil, bir yolculuktur; ne kadar ilerlediğini gör ve gurur duy.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_22",
-    "text": "Mutluluk hedefe ulaşmakta değil, o yolda olmanın ve ilerlemenin kendisindedir.",
-    "author": null,
+    "text": "Zorluklar seni durdurmak için değil, ne kadar güçlü olduğunu sana hatırlatmak içindir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_23",
-    "text": "Zamanını en iyi değerlendiren insan, hayatını en uzun yaşayan insandır.",
-    "author": "Seneca",
+    "text": "Zaman hızla akıyor; onu gelecekteki seni mutlu edecek güzel alışkanlıklarla doldur.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_24",
-    "text": "Kendini fetheden insan, en büyük savaşı kazanmıştır.",
-    "author": null,
+    "text": "Küçük rutinlerin gücünü hafife alma; en büyük zaferler sessiz tekrarlarda saklıdır.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_25",
-    "text": "Her yeni gün, zincire sağlam bir halka eklemek için temiz bir fırsattır.",
-    "author": null,
+    "text": "Düştüğünde değil, pes edip vazgeçtiğinde kaybedersin. Derin bir nefes al ve devam et.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_26",
-    "text": "Bugün ektiğin tohumlar, yarın sığındığın gölge olur.",
-    "author": null,
-    "source": "fallback"
-  },
-  {
-    "id": "q_seed_27",
-    "text": "Rüzgarın yönünü değiştiremezsin ama yelkenlerini hedefine göre ayarlayabilirsin.",
-    "author": null,
-    "source": "fallback"
-  },
-  {
-    "id": "q_seed_28",
-    "text": "Engeller, gözünü hedeften ayırdığında gördüğün o korkutucu şeylerdir.",
-    "author": null,
-    "source": "fallback"
-  },
-  {
-    "id": "q_seed_29",
-    "text": "Ölçemediğin ve takip etmediğin hiçbir şeyi sürdürülebilir kılamazsın.",
-    "author": null,
-    "source": "fallback"
-  },
-  {
-    "id": "q_seed_30",
-    "text": "Sabır acıdır, ama meyvesi tatlıdır.",
+    "text": "Sabır acıdır ama meyvesi hayatın en tatlı ödülüdür.",
     "author": "Aristoteles",
     "source": "fallback"
   },
   {
+    "id": "q_seed_27",
+    "text": "Günün sonunda aynaya baktığında 'bugün de elimden geleni yaptım' diyebilmek yeterlidir.",
+    "author": "Qwen AI",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_28",
+    "text": "Bugün hissettiğin zorluk, yarın sahip olacağın gücün ve iradenin kaynağıdır.",
+    "author": "Qwen AI",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_29",
+    "text": "Kendin için çıktığın bu yolda döktüğün her damla çaba geleceğinde çiçek açar.",
+    "author": "Qwen AI",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_30",
+    "text": "Yarınki seni gururlandıracak kararı erteleme; şimdi, şu anda uygula.",
+    "author": "Qwen AI",
+    "source": "fallback"
+  },
+  {
     "id": "q_seed_31",
-    "text": "Disiplin, gelecekte en çok istediğin şey ile şu an istediğin şey arasındaki seçimdir.",
-    "author": null,
+    "text": "Ne kadar yavaş gittiğin önemli değil; durmadığın sürece zirveye yaklaşıyorsun demektir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_32",
-    "text": "Küçük başlangıçlar, muazzam dönüşümlerin habercisidir.",
-    "author": null,
+    "text": "Motivasyon seni yola çıkarır; onu hedefe ulaştıracak olan ise sadık alışkanlıklarındır.",
+    "author": "Jim Ryun",
     "source": "fallback"
   },
   {
     "id": "q_seed_33",
-    "text": "Zorluklar karşısında duraksama; en güçlü iradeler en fırtınalı günlerde bilenir.",
-    "author": null,
+    "text": "Kusursuzluğu aramak yerine her günkü küçük gelişimini kutla. İlerleme ilerlemedir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_34",
-    "text": "Yalnızca yaptıklarımızdan değil, yapmadıklarımızdan da sorumluyuz.",
-    "author": "Molière",
+    "text": "Yorulduğunda mola ver, dinlen; ama başladığın o güzel hayalden asla vazgeçme.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_35",
-    "text": "Hayat bir yankıdır; dünyaya ne verirsen sana onu geri döndürür.",
-    "author": null,
+    "text": "Bugün gösterdiğin küçük bir irade, yarın kim olduğunu belirleyen en güçlü parçan olur.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_36",
-    "text": "Gelecek, bugünden onun için hazırlık yapanlara ve vazgeçmeyenlere aittir.",
-    "author": null,
+    "text": "Başarı bir varış çizgisi değil, her gün aşkla ve kararlılıkla devam eden bir yaşam biçimidir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_37",
-    "text": "Kaybettiğinde değil, denemekten vazgeçtiğinde yenilirsin.",
-    "author": null,
+    "text": "Her yeni gün, dünden daha bilinçli ve umut dolu bir adımla başlamak için sana verilen bir hediyedir.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_38",
-    "text": "Her gün bir adım daha ileri; geçmişe takılmadan, zinciri kırmadan devam et.",
-    "author": null,
+    "text": "En uzun ve zorlu yollar bile vazgeçmeyen yüreklerin kararlılığıyla aşılır.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_39",
-    "text": "Odaklandığın her alışkanlık zamanla güçlenir; dikkatini geleceğine ver.",
-    "author": null,
+    "text": "Hedefine odaklan, bahaneleri sessizce arkanda bırak ve güvenle yürümeye devam et.",
+    "author": "Qwen AI",
     "source": "fallback"
   },
   {
     "id": "q_seed_40",
-    "text": "Büyük işler, bir araya getirilmiş küçük şeylerin toplamıdır.",
-    "author": "Vincent van Gogh",
+    "text": "Hiçbir zaman unutma: Mükemmel olmak zorunda değilsin, devam etmen yeterli.",
+    "author": "Qwen AI",
     "source": "fallback"
   }
 ]

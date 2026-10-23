@@ -6,8 +6,6 @@ import {
   calculateHabitStreak,
   calculateUserXp,
   formatDateInTimezone,
-  getDayOfWeek,
-  isHabitPlannedOnDate,
   shiftDateString
 } from './domainRules.js';
 import { HABIT_COMPLETION_XP } from '../domain/constants.js';

@@ -27,49 +27,57 @@ class SocialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    return Material(
-      color: colors.surface,
-      shape: StadiumBorder(side: BorderSide(color: colors.border)),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => _onTap(context),
-        child: Container(
-          constraints: const BoxConstraints(minHeight: AppSpacing.minTouchTarget),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.s16,
-            vertical: AppSpacing.s12,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              icon,
-              const SizedBox(width: AppSpacing.s12),
-              Text(
-                label,
-                style: AppTypography.body.copyWith(
-                  color: colors.textPrimary.withValues(alpha: 0.85),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.s8),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.s8,
-                  vertical: 2,
-                ),
-                decoration: BoxDecoration(
-                  color: colors.inactive,
-                  borderRadius: AppRadius.pillRadius,
-                ),
-                child: Text(
-                  'Yakında',
-                  style: AppTypography.caption.copyWith(
-                    color: colors.textSecondary,
-                    fontSize: 10,
+    return Semantics(
+      button: true,
+      label: '$label (Yakında)',
+      child: Material(
+        color: colors.surface,
+        shape: StadiumBorder(side: BorderSide(color: colors.border)),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => _onTap(context),
+          child: Container(
+            constraints: const BoxConstraints(minHeight: AppSpacing.minTouchTarget),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s16,
+              vertical: AppSpacing.s12,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                icon,
+                const SizedBox(width: AppSpacing.s12),
+                Flexible(
+                  child: Text(
+                    label,
+                    style: AppTypography.bodySmall.copyWith(
+                      color: colors.textPrimary.withValues(alpha: 0.85),
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(width: AppSpacing.s8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.s8,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.inactive,
+                    borderRadius: AppRadius.pillRadius,
+                  ),
+                  child: Text(
+                    'Yakında',
+                    style: AppTypography.caption.copyWith(
+                      color: colors.textSecondary,
+                      fontSize: 10,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

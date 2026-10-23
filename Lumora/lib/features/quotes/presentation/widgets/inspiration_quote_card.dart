@@ -148,7 +148,7 @@ class _InspirationQuoteCardState extends ConsumerState<InspirationQuoteCard> {
             ],
           ] else ...[
             Text(
-              '"Her gün zincire eklenen bir halka, geleceğini inşa eder."',
+              '"Mükemmel olmak zorunda değilsin, devam etmen yeterli."',
               style: AppTypography.heading.copyWith(
                 color: colors.textOnPrimary,
                 fontWeight: FontWeight.w600,
