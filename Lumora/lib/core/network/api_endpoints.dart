@@ -26,4 +26,16 @@ abstract class ApiEndpoints {
   static const String habitTemplates = '/habit-templates';
   static const String logs = '/logs';
   static const String today = '/today';
+
+  // Quotes uç noktaları
+  static const String dailyQuote = '/quotes/daily';
+  static String favoriteQuote(String id) => '/quotes/$id/favorite';
+
+  // Calendar uç noktaları
+  static const String calendar = '/calendar';
+  static String calendarDay(String date) => '/calendar/day/$date';
+
+  // Stats uç noktaları
+  static const String stats = '/stats';
+  static String statsWithRange(String range) => '/stats?range=$range';
 }

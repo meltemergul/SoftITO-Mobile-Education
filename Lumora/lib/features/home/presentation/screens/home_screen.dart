@@ -5,10 +5,11 @@ import '../../../../core/theme/dimensions.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/app_pill_button.dart';
 import '../../../habits/presentation/screens/habit_form_screen.dart';
+import '../../../quotes/presentation/providers/daily_quote_provider.dart';
+import '../../../quotes/presentation/widgets/inspiration_quote_card.dart';
 import '../providers/today_notifier.dart';
 import '../widgets/celebration_dialog.dart';
 import '../widgets/daily_progress_card.dart';
-import '../widgets/inspiration_quote_card.dart';
 import '../widgets/skeleton_loading.dart';
 import '../widgets/today_habit_card.dart';
 
@@ -75,7 +76,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () => notifier.loadToday(force: true),
+          onRefresh: () async {
+            await Future.wait([
+              notifier.loadToday(force: true),
+              ref.read(dailyQuoteNotifierProvider.notifier).loadDailyQuote(force: true),
+            ]);
+          },
           color: colors.primary,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

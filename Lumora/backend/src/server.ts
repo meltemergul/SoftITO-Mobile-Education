@@ -11,6 +11,9 @@ import {
   templateRouter
 } from './routes/habitRoutes.js';
 import { todayRouter } from './routes/todayRoutes.js';
+import { quoteRouter } from './routes/quoteRoutes.js';
+import { calendarRouter } from './routes/calendarRoutes.js';
+import { statsRouter } from './routes/statsRoutes.js';
 
 export const app = express();
 
@@ -34,6 +37,9 @@ app.use('/habits', habitRouter);
 app.use('/logs', logRouter);
 app.use('/habit-templates', templateRouter);
 app.use('/today', todayRouter);
+app.use('/quotes', quoteRouter);
+app.use('/calendar', calendarRouter);
+app.use('/stats', statsRouter);
 
 // Fallback 404 handler
 app.use((_req: Request, res: Response) => {

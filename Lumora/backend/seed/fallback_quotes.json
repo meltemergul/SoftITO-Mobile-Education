@@ -2,19 +2,241 @@
   {
     "id": "q_seed_1",
     "text": "Küçük adımların sürekliliği, büyük sıçramalardan daha kalıcıdır.",
-    "author": "Lumora",
+    "author": null,
     "source": "fallback"
   },
   {
     "id": "q_seed_2",
     "text": "Her gün zincire eklenen bir halka, geleceğini inşa eder.",
-    "author": "Lumora",
+    "author": null,
     "source": "fallback"
   },
   {
     "id": "q_seed_3",
-    "text": "Mükemmel olmak zorunda değilsin, istikrarlı olmak zorundasın.",
+    "text": "Mükemmel olmak zorunda değilsin, başlamak zorundasın; ama harika olmak için başlamak zorundasın.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_4",
+    "text": "Sabahları uyandığında yaşamanın, nefes almanın, düşünmenin ve sevmenin ne büyük bir ayrıcalık olduğunu düşün.",
     "author": "Marcus Aurelius",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_5",
+    "text": "Bir mum diğer mumu tutuşturmakla ışığından bir şey kaybetmez.",
+    "author": "Mevlana",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_6",
+    "text": "Zor olduğu için cesaret edemiyor değiliz; biz cesaret edemediğimiz için zordur.",
+    "author": "Seneca",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_7",
+    "text": "Bin millik bir yolculuk tek bir adımla başlar.",
+    "author": "Lao Tzu",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_8",
+    "text": "Nereye gideceğini bilmiyorsan, hangi yoldan gittiğinin hiçbir önemi yoktur.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_9",
+    "text": "Bir şeyi gerçekten yapmak isteyen bir yol bulur; istemeyen ise bir mazeret bulur.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_10",
+    "text": "En büyük zafer düşmemek değil, her düştüğünde ayağa kalkabilmektir.",
+    "author": "Konfüçyüs",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_11",
+    "text": "Bugün yaptıkların, yarınlarını belirler.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_12",
+    "text": "İlk önce kendine ne olacağını söyle; sonra ne yapman gerekiyorsa onu yap.",
+    "author": "Epiktetos",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_13",
+    "text": "Taşı delen suyun gücü değil, damlaların sürekliliğidir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_14",
+    "text": "Gündüzleri hedeflerinle yarış, geceleri hayallerinle dinlen.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_15",
+    "text": "Zafer, 'Zafer benimdir' diyebilenindir. Başarı ise, 'Başaracağım' diye başlayarak sonunda 'Başardım' diyebilenindir.",
+    "author": "Mustafa Kemal Atatürk",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_16",
+    "text": "Hafife aldığın küçük alışkanlıklar, zamanla en büyük karakterin olur.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_17",
+    "text": "Başlamak için koşulların mükemmel olmasını bekleme; başladığın için koşullar mükemmelleşir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_18",
+    "text": "Dün akıllıydım, dünyayı değiştirmek istedim. Bugün bilgeyim, kendimi değiştiriyorum.",
+    "author": "Mevlana",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_19",
+    "text": "Zihnini yönetemezsen, o seni yönetir.",
+    "author": "Horatius",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_20",
+    "text": "İrade, her gün yeniden inşa edilen bir kas gibidir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_21",
+    "text": "Damlaya damlaya göl olur; her gün atılan küçük adımlar büyük başarılar doğurur.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_22",
+    "text": "Mutluluk hedefe ulaşmakta değil, o yolda olmanın ve ilerlemenin kendisindedir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_23",
+    "text": "Zamanını en iyi değerlendiren insan, hayatını en uzun yaşayan insandır.",
+    "author": "Seneca",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_24",
+    "text": "Kendini fetheden insan, en büyük savaşı kazanmıştır.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_25",
+    "text": "Her yeni gün, zincire sağlam bir halka eklemek için temiz bir fırsattır.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_26",
+    "text": "Bugün ektiğin tohumlar, yarın sığındığın gölge olur.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_27",
+    "text": "Rüzgarın yönünü değiştiremezsin ama yelkenlerini hedefine göre ayarlayabilirsin.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_28",
+    "text": "Engeller, gözünü hedeften ayırdığında gördüğün o korkutucu şeylerdir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_29",
+    "text": "Ölçemediğin ve takip etmediğin hiçbir şeyi sürdürülebilir kılamazsın.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_30",
+    "text": "Sabır acıdır, ama meyvesi tatlıdır.",
+    "author": "Aristoteles",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_31",
+    "text": "Disiplin, gelecekte en çok istediğin şey ile şu an istediğin şey arasındaki seçimdir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_32",
+    "text": "Küçük başlangıçlar, muazzam dönüşümlerin habercisidir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_33",
+    "text": "Zorluklar karşısında duraksama; en güçlü iradeler en fırtınalı günlerde bilenir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_34",
+    "text": "Yalnızca yaptıklarımızdan değil, yapmadıklarımızdan da sorumluyuz.",
+    "author": "Molière",
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_35",
+    "text": "Hayat bir yankıdır; dünyaya ne verirsen sana onu geri döndürür.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_36",
+    "text": "Gelecek, bugünden onun için hazırlık yapanlara ve vazgeçmeyenlere aittir.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_37",
+    "text": "Kaybettiğinde değil, denemekten vazgeçtiğinde yenilirsin.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_38",
+    "text": "Her gün bir adım daha ileri; geçmişe takılmadan, zinciri kırmadan devam et.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_39",
+    "text": "Odaklandığın her alışkanlık zamanla güçlenir; dikkatini geleceğine ver.",
+    "author": null,
+    "source": "fallback"
+  },
+  {
+    "id": "q_seed_40",
+    "text": "Büyük işler, bir araya getirilmiş küçük şeylerin toplamıdır.",
+    "author": "Vincent van Gogh",
     "source": "fallback"
   }
 ]
