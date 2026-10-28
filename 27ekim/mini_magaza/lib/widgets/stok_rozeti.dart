@@ -27,7 +27,8 @@ Widget build(BuildContext context){
       color: tukendiMi?Colors.red.shade900 : Colors.green.shade900,
       fontSize:11,
       fontWeight: FontWeight.bold,
-     )
+     ),
     )   
-  )
+  );
+}
 }
