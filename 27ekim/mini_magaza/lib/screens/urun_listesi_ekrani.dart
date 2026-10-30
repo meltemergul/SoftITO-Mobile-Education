@@ -142,22 +142,20 @@ class _UrunListesiEkraniState extends State<UrunListesiEkrani>{
                 return Padding(
                   padding:const EdgeInsets.symmetric(horizontal:4.0),
                   child:ChoiceChip(
-                    avatar:Text(kategori.ikon),
-                    label:Text(kategori.baslik),
-                    selected:seciliMi,
-                    onSelected:(secildi)
-                   {if(secildi)
-                   {
-                    setState(()
-                   {
-                    _seciliKategori=kategori;
-                    _filtreyiUygula();
-                   });
-                   } 
-                   },
-                  ),
-                );
-              }).toList(),
+                      label: const Text('Tümü'),
+                 selected: seciliMi,
+          onSelected: (secildi) {
+            if (secildi) {
+              setState(() {
+                _seciliKategori = kategori;
+              });
+
+              _filtreyiUygula();
+            }
+          },
+        ),
+      );
+    }).toList(),
             )
           ),
           Expanded(

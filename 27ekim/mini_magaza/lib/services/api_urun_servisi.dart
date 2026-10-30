@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import '../models/urun.dart';
 import '../models/kategori.dart';
+import '../services/i_urun_servisi.dart';
 
 class ApiUrunServisi implements IUrunServisi{
-    static const String _baseUrl='http://fakestoreapi.com/products';
+    static const String _baseUrl='https://fakestoreapi.com/products';
 
     @override Future<List<Urun>> tumUrunleriGetir() async {
 
@@ -18,7 +19,7 @@ class ApiUrunServisi implements IUrunServisi{
             if(yanit.statusCode==200)
             {
                 final List<dynamic> hamListe=jsonDecode(utf8.decode(yanit.bodyBytes));
-                return hamListe.map((tekilJson)=>Urun.fromJson(tekilJson as Map<String,dynamic)).toList();
+                return hamListe.map((tekilJson)=>Urun.fromJson(tekilJson as Map<String,dynamic>)).toList();
             }
             else
             {
@@ -41,20 +42,20 @@ class ApiUrunServisi implements IUrunServisi{
     {
         case Kategori.elektronik:kategoriYolu='electronics';
         break;
-        case Kategori.giyim:kategoriYolu="men's clothing";
+        case Kategori.erkekGiyim:kategoriYolu="men's clothing";
         break;
-        case Kategori.mobilya:kategoriYolu='jewelery';
+        case Kategori.taki:kategoriYolu='jewelery';
         break;
         default:
         return tumUrunleriGetir();
     }
 
     final uri=Uri.parse('$_baseUrl/category/$kategoriYolu');
-    final yanit=await http.get(uri);
+    final yanit=await http.get(uri).timeout(const Duration(seconds:15));
 
     if(yanit.statusCode==200)
     {final List<dynamic> hamListe=jsonDecode(utf8.decode(yanit.bodyBytes));
-    return hamListe.map((j)=>urun.fromJson(j as Map<String,dynamic>)).toList();
+    return hamListe.map((j)=>Urun.fromJson(j as Map<String,dynamic>)).toList();
     }
     else{
         throw Exception('Kategori Filtreleme Hatası: ${yanit.statusCode}');

@@ -85,18 +85,7 @@ class UrunKarti extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Text(
-                            '${urun.kategori.ikon} ${urun.kategori.baslik}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                      
                         const SizedBox(width: 4),
                         StokRozeti(
                           stok: urun.stokAdedi,
