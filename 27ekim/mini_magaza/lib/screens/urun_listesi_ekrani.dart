@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/kategori.dart';
 import '../models/urun.dart';
 import '../services/i_urun_servisi.dart';
-import '../services/mock_urun_servisi.dart';
+import '../services/api_urun_servisi.dart';
 import '../widgets/urun_karti.dart';
 
 class UrunListesiEkrani extends StatefulWidget {
@@ -15,7 +15,7 @@ class UrunListesiEkrani extends StatefulWidget {
 
 }
 class _UrunListesiEkraniState extends State<UrunListesiEkrani>{
-  final IUrunServisi _servis=MockUrunServisi();
+  final IUrunServisi _servis=ApiUrunServisi();
 
   final TextEditingController _aramaController=TextEditingController();
 
