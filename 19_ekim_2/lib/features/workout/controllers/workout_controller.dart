@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../models/workout_model.dart';
 
 /// Egzersiz kayıtlarını yöneten ve otomatik su ihtiyacı bildiren Controller.
@@ -21,10 +22,8 @@ class WorkoutController {
   }) {
     if (durationMinutes <= 0) return;
 
-    final waterNeed =
-        WorkoutModel.calculateWaterNeed(type, durationMinutes);
-    final calories =
-        WorkoutModel.calculateCalories(type, durationMinutes);
+    final waterNeed = WorkoutModel.calculateWaterNeed(type, durationMinutes);
+    final calories = WorkoutModel.calculateCalories(type, durationMinutes);
 
     final workout = WorkoutModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -60,7 +59,7 @@ class WorkoutController {
   }
 
   void dispose() {
-    workouts.dispose();
+    workouts.dispose(); //dispose
     totalMinutes.dispose();
     totalCalories.dispose();
     totalExtraWater.dispose();

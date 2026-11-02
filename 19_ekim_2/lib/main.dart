@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_controller.dart';
 import 'features/water_tracker/controllers/water_tracker_controller.dart';
@@ -27,12 +28,14 @@ class _SusadimAppState extends State<SusadimApp> {
     _themeController = ThemeController(initialMode: ThemeMode.dark);
   }
 
+  // Oluşturduğumuz controller nesnelerini artık kullanmayacağımız için hafızadan temizliyoruz.
   @override
   void dispose() {
     _themeController.dispose();
     super.dispose();
   }
 
+  // Form ekranının arayüzünü oluşturuyoruz.
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
@@ -55,10 +58,7 @@ class _SusadimAppState extends State<SusadimApp> {
 class MainNavigationWrapper extends StatefulWidget {
   final ThemeController themeController;
 
-  const MainNavigationWrapper({
-    super.key,
-    required this.themeController,
-  });
+  const MainNavigationWrapper({super.key, required this.themeController});
 
   @override
   State<MainNavigationWrapper> createState() => _MainNavigationWrapperState();
@@ -98,10 +98,7 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
     ];
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),

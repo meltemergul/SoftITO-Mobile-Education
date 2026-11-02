@@ -1,11 +1,13 @@
 /// Su tüketim kaydını temsil eden değişmez (immutable) veri modeli.
 class WaterRecordModel {
+  //su kayıt modeli oluşturuldu.
   final String id;
-  final int amountMl;
+  final int amountMl; //miktar
   final DateTime timestamp;
   final String source;
 
   const WaterRecordModel({
+    //kurucu metot
     required this.id,
     required this.amountMl,
     required this.timestamp,
@@ -13,6 +15,7 @@ class WaterRecordModel {
   });
 
   WaterRecordModel copyWith({
+    //copyWith ile
     String? id,
     int? amountMl,
     DateTime? timestamp,

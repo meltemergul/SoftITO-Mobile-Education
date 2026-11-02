@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/constants/app_colors.dart';
 
 /// Hızlı su ekleme butonlarını sunan widget.
 class QuickWaterButtons extends StatelessWidget {
   final void Function(int amount, String source) onAdd;
 
-  const QuickWaterButtons({
-    super.key,
-    required this.onAdd,
-  });
+  const QuickWaterButtons({super.key, required this.onAdd});
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +53,18 @@ class QuickWaterButtons extends StatelessWidget {
     required int amount,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceColor = isDark ? AppColors.darkSurface : AppColors.lightSurface;
-    final borderColor = isDark ? AppColors.darkSurfaceBorder : AppColors.lightSurfaceBorder;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
-    final subTextColor = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final surfaceColor = isDark
+        ? AppColors.darkSurface
+        : AppColors.lightSurface;
+    final borderColor = isDark
+        ? AppColors.darkSurfaceBorder
+        : AppColors.lightSurfaceBorder;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.lightTextPrimary;
+    final subTextColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.lightTextSecondary;
     final iconColor = isDark ? AppColors.neonCyan : AppColors.lightPrimary;
 
     return InkWell(
@@ -85,13 +91,7 @@ class QuickWaterButtons extends StatelessWidget {
                 color: textColor,
               ),
             ),
-            Text(
-              subLabel,
-              style: TextStyle(
-                fontSize: 10,
-                color: subTextColor,
-              ),
-            ),
+            Text(subLabel, style: TextStyle(fontSize: 10, color: subTextColor)),
           ],
         ),
       ),

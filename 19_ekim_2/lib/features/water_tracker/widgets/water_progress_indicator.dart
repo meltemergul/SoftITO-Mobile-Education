@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/constants/app_colors.dart';
 
 /// Günlük su tüketimini dairesel neon gösterge ile sunan widget.
@@ -9,7 +10,7 @@ class WaterProgressIndicator extends StatelessWidget {
 
   const WaterProgressIndicator({
     super.key,
-    required this.currentWater,
+    required this.currentWater, //gerekli alanlar
     required this.totalGoal,
     required this.progress,
   });
@@ -19,10 +20,18 @@ class WaterProgressIndicator extends StatelessWidget {
     final percentage = (progress * 100).toInt();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceColor = isDark ? AppColors.darkSurface : AppColors.lightSurface;
-    final borderColor = isDark ? AppColors.darkSurfaceBorder : AppColors.lightSurfaceBorder;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
-    final subTextColor = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final surfaceColor = isDark
+        ? AppColors.darkSurface
+        : AppColors.lightSurface;
+    final borderColor = isDark
+        ? AppColors.darkSurfaceBorder
+        : AppColors.lightSurfaceBorder;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.lightTextPrimary;
+    final subTextColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.lightTextSecondary;
     final primaryColor = isDark ? AppColors.neonCyan : AppColors.lightPrimary;
 
     return Container(
@@ -57,11 +66,7 @@ class WaterProgressIndicator extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.water_drop_rounded,
-                color: primaryColor,
-                size: 32,
-              ),
+              Icon(Icons.water_drop_rounded, color: primaryColor, size: 32),
               const SizedBox(height: 4),
               Text(
                 '$currentWater',
@@ -82,7 +87,10 @@ class WaterProgressIndicator extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 3,
+                ),
                 decoration: BoxDecoration(
                   color: primaryColor.withAlpha(isDark ? 35 : 25),
                   borderRadius: BorderRadius.circular(20),
