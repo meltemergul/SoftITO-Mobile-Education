@@ -3,8 +3,11 @@ import '../../../core/constants/app_colors.dart';
 import '../controller/workout_controller.dart';
 import '../models/workout_model.dart';
 
+// Kullanıcının en çok yaptığı egzersizleri (Kardiyo, Ağırlık vb.)
+// tek dokunuşla hızlıca kaydetmesini sağlayan ızgara (Grid) bileşeni.
 class QuickWorkoutPresets extends StatelessWidget {
   final WorkoutController controller;
+  // Egzersiz başarıyla eklendiğinde SnackBar göstermek için üst widget'a bildiren callback
   final void Function(WorkoutItem item)? onWorkoutAdded;
 
   const QuickWorkoutPresets({
@@ -13,6 +16,8 @@ class QuickWorkoutPresets extends StatelessWidget {
     this.onWorkoutAdded,
   });
 
+  // Önceden tanımladığım hazır spor şablonları:
+  // Her şablonun süresi, yakacağı ortalama kalori ve ona özel neon rengi/ikonu var.
   static const List<_PresetWorkout> _presets = [
     _PresetWorkout(
       title: 'Kardiyo',
@@ -20,7 +25,7 @@ class QuickWorkoutPresets extends StatelessWidget {
       durationMinutes: 30,
       caloriesBurned: 240,
       icon: Icons.directions_run,
-      color: AppColors.neonEnergy,
+      color: AppColors.neonEnergy, // Canlı yeşil
     ),
     _PresetWorkout(
       title: 'Ağırlık',
@@ -28,7 +33,7 @@ class QuickWorkoutPresets extends StatelessWidget {
       durationMinutes: 45,
       caloriesBurned: 320,
       icon: Icons.fitness_center,
-      color: AppColors.neonPurple,
+      color: AppColors.neonPurple, // Mor vurgu
     ),
     _PresetWorkout(
       title: 'HIIT',
@@ -36,7 +41,7 @@ class QuickWorkoutPresets extends StatelessWidget {
       durationMinutes: 20,
       caloriesBurned: 220,
       icon: Icons.bolt,
-      color: AppColors.neonCalorie,
+      color: AppColors.neonCalorie, // Ateş turuncusu
     ),
     _PresetWorkout(
       title: 'Bisiklet',
@@ -44,7 +49,7 @@ class QuickWorkoutPresets extends StatelessWidget {
       durationMinutes: 35,
       caloriesBurned: 260,
       icon: Icons.directions_bike,
-      color: AppColors.neonWater,
+      color: AppColors.neonWater, // Neon su mavisi
     ),
   ];
 
@@ -53,6 +58,7 @@ class QuickWorkoutPresets extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Bölüm başlığı
         const Text(
           'Hızlı Egzersiz Ekle',
           style: TextStyle(
@@ -62,15 +68,19 @@ class QuickWorkoutPresets extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
+
+        // Şablonları 2x2 ızgara şeklinde çizen widget
         _PresetsGrid(
           presets: _presets,
           onTap: (preset) {
+            // Şablona tıklandığında controller'a yeni egzersiz ekletiyorum
             final item = controller.addWorkout(
               title: preset.title,
               category: preset.category,
               durationMinutes: preset.durationMinutes,
               caloriesBurned: preset.caloriesBurned,
             );
+            // Ekleme başarılı olduysa üst widget'a iletip SnackBar açtırıyorum
             if (item != null && onWorkoutAdded != null) {
               onWorkoutAdded!(item);
             }
@@ -81,6 +91,7 @@ class QuickWorkoutPresets extends StatelessWidget {
   }
 }
 
+// 2 sütunlu şablon ızgarasını oluşturan bileşen
 class _PresetsGrid extends StatelessWidget {
   final List<_PresetWorkout> presets;
   final void Function(_PresetWorkout preset) onTap;
@@ -89,14 +100,17 @@ class _PresetsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // GridView.builder: Elemanları grid (ızgara) düzeninde performanslı oluşturur
     return GridView.builder(
+      // 'shrinkWrap: true': GridView'ın ana SingleChildScrollView içinde kendi boyutu kadar yer kaplamasını sağlar
       shrinkWrap: true,
+      // 'physics: const NeverScrollableScrollPhysics()': Sayfa içinde çift kaydırma çubuğu olmasını engeller
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 2.2,
+        crossAxisCount: 2,       // Yan yana 2 kutu
+        crossAxisSpacing: 10,     // Kutular arası yatay boşluk
+        mainAxisSpacing: 10,      // Kutular arası dikey boşluk
+        childAspectRatio: 2.2,    // Genişliğin yüksekliğe oranı (kutuların yatay dikdörtgen olması için)
       ),
       itemCount: presets.length,
       itemBuilder: (context, index) {
@@ -107,6 +121,7 @@ class _PresetsGrid extends StatelessWidget {
   }
 }
 
+// Hazır egzersiz şablonunun veri yapısını tutan yardımcı model
 class _PresetWorkout {
   final String title;
   final String category;
@@ -125,6 +140,7 @@ class _PresetWorkout {
   });
 }
 
+// Izgaradaki tek bir egzersiz kutusunun tasarımı
 class _PresetTile extends StatelessWidget {
   final _PresetWorkout preset;
   final VoidCallback onTap;
@@ -145,12 +161,14 @@ class _PresetTile extends StatelessWidget {
         ),
         child: Row(
           children: [
+            // İkonun arkasında yarı saydam (alpha: 0.15) şık bir neon daire oluşturmak için CircleAvatar kullandım
             CircleAvatar(
               radius: 18,
               backgroundColor: preset.color.withValues(alpha: 0.15),
               child: Icon(preset.icon, color: preset.color, size: 20),
             ),
             const SizedBox(width: 10),
+            // Başlık, süre ve kalori metinleri
             Expanded(child: _PresetTileText(preset: preset)),
           ],
         ),
@@ -159,6 +177,7 @@ class _PresetTile extends StatelessWidget {
   }
 }
 
+// Egzersiz kutusu içindeki başlık ve alt metinleri düzenleyen bileşen
 class _PresetTileText extends StatelessWidget {
   final _PresetWorkout preset;
 
@@ -170,6 +189,7 @@ class _PresetTileText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Egzersiz adı
         Text(
           preset.title,
           style: const TextStyle(
@@ -178,6 +198,7 @@ class _PresetTileText extends StatelessWidget {
             color: AppColors.textPrimary,
           ),
         ),
+        // Süre ve kalori (Örn: 30 dk • 240 kcal)
         Text(
           '${preset.durationMinutes} dk • ${preset.caloriesBurned} kcal',
           style: const TextStyle(fontSize: 10, color: AppColors.textMuted),
@@ -186,3 +207,4 @@ class _PresetTileText extends StatelessWidget {
     );
   }
 }
+
