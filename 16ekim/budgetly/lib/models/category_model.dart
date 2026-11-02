@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
+//kategoriler için model oluşturuldu. Bu model, kategori adını, simgesini ve rengini içerir. Ayrıca, önceden tanımlanmış kategorilerin bir listesini sağlar.
 class CategoryModel {
-  final String name;
-  final IconData icon;
-  final Color color;
+  final String name; //string türünde kategori adı
+  final IconData icon; //icon için IconData türü kullanıldı
+  final Color color; //renk için Color türü kullanıldı
 
   const CategoryModel({
     required this.name,
-    required this.icon,
+    required this.icon, //zorunlu alanlar
     required this.color,
   });
 
   static const List<CategoryModel> categories = [
+    // Önceden tanımlanmış kategoriler listesi
     CategoryModel(
       name: 'Market',
-      icon: Icons.shopping_cart,
+      icon: Icons.shopping_cart, // Market kategorisi için icon
       color: Color(0xFF10B981),
     ),
     CategoryModel(

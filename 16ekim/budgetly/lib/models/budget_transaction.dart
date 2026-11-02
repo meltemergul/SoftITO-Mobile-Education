@@ -1,4 +1,5 @@
 class BudgetTransaction {
+  //budget sınıfı oluşturuldu
   final String id;
   final String title;
   final String category;
@@ -7,7 +8,8 @@ class BudgetTransaction {
   final bool isIncome;
 
   const BudgetTransaction({
-    required this.id,
+    //kurucu metot
+    required this.id, //zorunlu alanlar
     required this.title,
     required this.category,
     required this.amount,
