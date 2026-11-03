@@ -1,146 +1,169 @@
 // Flutter Material tasarım bileşenlerini içe aktarır
 import 'package:flutter/material.dart';
 
-// Ürün veri modelini içe aktarır
+// Ürün modelini içe aktarır
 import '../models/urun.dart';
-// Kategori enum ve extension yapısını içe aktarır
+
+// Ürün servisinin gerçek API implementasyonunu içe aktarır
 import '../services/urun_servisi.dart';
+
+// Soyut ürün servisi arayüzünü içe aktarır
 import '../services/i_urun_servisi.dart';
+
+// Ürün kartı widget'ını içe aktarır
 import '../widgets/urun_karti.dart';
 
-// Canlı API'den ürünleri çeken, filtreleyen ve 4 durumu yöneten durumlu (Stateful) ana ekran widget'ı
+// Ürünleri API'den çekip liste halinde gösteren ana ekran
 class UrunListesiEkrani extends StatefulWidget {
-  // Widget ağacı için kurucu metot
+  // Widget'ın kurucu metodu
   const UrunListesiEkrani({super.key});
 
-  // Ekranın durum (state) yöneticisini oluşturan metot
+  // Ekranın durum sınıfını oluşturur
   @override
-  // UrunListesiEkraniState durum nesnesini bağlar
   State<UrunListesiEkrani> createState() => _UrunListesiEkraniState();
-  // UrunListesiEkrani sınıfının kapanış parantezi
 }
 
-// Ekranın durum değişkenlerini, API çağrılarını ve UI mantığını barındıran State sınıfı
+// Ekranın değişkenlerini ve işlemlerini yöneten State sınıfı
 class _UrunListesiEkraniState extends State<UrunListesiEkrani> {
-  // Polimorfizm prensibi ile soyut arayüze bağlanan API servis referansı
+  // Arayüz üzerinden servis kullanarak API işlemlerini gerçekleştirir
   final IUrunServisi _servis = CanliApiUrunServisi();
 
-  // API'den gelen orijinal ve eksiksiz ürün havuzu
-  List<UrunModel> _tumUrunler = [];
+  // API'den gelen ürünleri tutan liste
+  List<UrunModel> _urunler = [];
 
-  // Asenkron veri çekme işleminin devam edip etmediğini tutan bayrak
+  // Ürünlerin yüklenme durumunu kontrol eder
   bool _yukleniyor = true;
-  // Ağ veya sunucu hatası oluştuğunda hata metnini tutan değişken (hata yoksa null'dır)
-  String? _hataMesaji;
-  // Kullanıcının o anda seçili tuttuğu kategori filtresi (varsayılan: hepsi)
 
-  // Widget ilk kez belleğe yüklendiğinde bir kez çalışan yaşam döngüsü metodu
+  // Oluşabilecek hatanın mesajını tutar
+  String? _hataMesaji;
+
+  // Ekran ilk açıldığında bir kez çalışır
   @override
-  // initState metodunun gövdesi
   void initState() {
-    // Üst sınıfın initState metodunu çağırır
     super.initState();
-    // Sayfa açılır açılmaz ürünleri API'den çekmeye başlar
+
+    // Sayfa açılır açılmaz ürünleri API'den getirir
     _urunleriYukle();
-    // initState metodunun kapanış parantezi
   }
 
-  // FakeStore REST API'den ürünleri asenkron olarak çeken ana fonksiyon
+  // API üzerinden ürünleri asenkron olarak getirir
   Future<void> _urunleriYukle() async {
-    // Ekranı 'Yükleniyor' moduna sokmak ve eski hataları temizlemek için setState çağrılır
+    // Yükleme durumunu başlatır ve eski hatayı temizler
     setState(() {
-      // Yüklenme animasyonunu başlatır
       _yukleniyor = true;
-      // Varsa önceki hata mesajını sıfırlar
       _hataMesaji = null;
-      // setState kapanışı
     });
 
-    // Olası ağ kopmaları, zaman aşımı ve format hataları için try bloğu
+    // API isteği sırasında oluşabilecek hataları yakalar
     try {
-      // Servis üzerinden HTTP GET isteğini atar ve ürün listesini bekler
+      // Servis üzerinden ürün listesini getirir
       final urunler = await _servis.urunleriGetir();
-      // Widget ağaçta hâlâ aktif mi kontrol eder (kullanıcı sayfa yüklenirken geri çıktıysa hata almamak için)
+
+      // Widget hâlâ ekranda mı kontrol eder
       if (!mounted) return;
 
-      // Veriler başarıyla geldiyse durumu günceller
+      // Gelen ürünleri ekrana aktarır
       setState(() {
-        // Ham ürün listesini kaydeder
-        _tumUrunler = urunler;
-        // Başlangıçta tüm ürünleri filtreli listeye de aktarır
-        // Yüklenme bayrağını kapatır
+        _urunler = urunler;
+
+        // Yükleme işlemini bitirir
         _yukleniyor = false;
-        // setState kapanışı
       });
-      // Varsa mevcut filtreleri yeni listeye uygular
-      // Ağ, zaman aşımı veya sunucu kaynaklı bir hata yakalandığında
-    } catch (hata) {
-      // Widget ağaçta hâlâ aktif mi kontrol eder
+    } catch (e) {
+      // Widget hâlâ ekranda mı kontrol eder
       if (!mounted) return;
-      // Ekranı 'Hata' durumuna geçirmek için setState çağrılır
+
+      // Hata durumunda ekranın durumunu günceller
       setState(() {
-        // Kullanıcıya gösterilecek anlaşılır hata metnini oluşturur
-        _hataMesaji = 'Ürünler yüklenirken bir sorun oluştu.\nİnternet bağlantınızı kontrol edin.';
-        // Yüklenme durumunu kapatır
+        _hataMesaji = 'Ürünler yüklenemedi.';
+
+        // Yükleme animasyonunu durdurur
         _yukleniyor = false;
-        // setState kapanışı
       });
-      // try-catch kapanışı
+
+      // Hatayı konsola yazdırır
+      debugPrint('Hata: $e');
     }
-    // _urunleriYukle fonksiyonu kapanış parantezi
   }
 
-  // Ekranın görsel ağacını kuran ana build fonksiyonu
+  // Ekranın görsel tasarımını oluşturur
   @override
-  // BuildContext parametresini alan build fonksiyonu
   Widget build(BuildContext context) {
-    // Temel sayfa iskeletini sağlayan Scaffold
+    // Sayfanın temel iskeletini oluşturur
     return Scaffold(
-      // Sayfanın üst başlık çubuğu
+      // Üst başlık çubuğunu oluşturur
       appBar: AppBar(
-        // Başlık metni
-        title: const Text('Mini Mağaza (Canlı API)'),
+        // Sayfa başlığını gösterir
+        title: const Text('Mini Mağaza'),
+
         // Başlığı ortalar
         centerTitle: true,
-        // AppBar sağ üst köşesindeki hızlı işlem butonları
+
+        // Sağ üst köşedeki butonları tutar
         actions: [
-          // Elle yenileme yapmayı sağlayan yenile butonu
+          // Ürünleri yeniden yüklemek için yenileme butonu
           IconButton(
-            // Yenile simgesi
+            // Yenileme simgesini gösterir
             icon: const Icon(Icons.refresh),
-            // Tıklanınca ürünleri sıfırdan çeker
+
+            // Butona basıldığında API isteğini tekrar yapar
             onPressed: _urunleriYukle,
-            // Ekran okuyucular için ipucu metni
-            tooltip: 'Yenile',
-            // IconButton kapanışı
           ),
-          // actions listesi kapanışı
         ],
-        // AppBar kapanışı
       ),
-      // Sayfanın ana gövdesini oluşturan dikey sütun (Column)
-      body: Column(
-        // Sütun içi alt bileşenler listesi
-        children: [
-          // Canlı arama kutusunun dış kenar boşluklarını belirleyen Padding
-          Padding(
-            // Yatayda 16, dikeyde 8 piksel boşluk
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            // Kullanıcının metin girdiği TextField bileşeni
 
-            // Padding kapanışı
-          ),
+      // Sayfanın ana içerik alanını oluşturur
+      body:
+          // Ürünler yükleniyorsa yükleme animasyonunu gösterir
+          _yukleniyor
+          ? const Center(child: CircularProgressIndicator())
+          // Hata oluşmuşsa hata mesajını gösterir
+          : _hataMesaji != null
+          ? Center(
+              child: Column(
+                // İçerikleri dikeyde ortalar
+                mainAxisAlignment: MainAxisAlignment.center,
 
-          // 4 piksel dikey boşluk
-          const SizedBox(height: 4),
-          // Kalan ekran alanını kaplayan ve 4 asenkron durumu yöneten Expanded bileşeni
+                children: [
+                  // Hata mesajını ekranda gösterir
+                  Text(_hataMesaji!),
 
-          // Column çocukları kapanışı
-        ],
-        // Column kapanışı
-      ),
-      // Scaffold kapanışı
+                  // Yeniden deneme butonunu oluşturur
+                  ElevatedButton(
+                    // Basıldığında ürünleri tekrar yükler
+                    onPressed: _urunleriYukle,
+
+                    // Buton metni
+                    child: const Text('Tekrar Dene'),
+                  ),
+                ],
+              ),
+            )
+          // Ürün listesi boşsa bilgi mesajı gösterir
+          : _urunler.isEmpty
+          ? const Center(child: Text('Henüz ürün bulunamadı.'))
+          // Ürünler geldiyse liste halinde ekranda gösterir
+          : ListView.builder(
+              // Liste etrafındaki boşlukları ayarlar
+              padding: const EdgeInsets.all(12),
+
+              // Listede gösterilecek ürün sayısını belirler
+              itemCount: _urunler.length,
+
+              // Her ürün için ayrı bir kart oluşturur
+              itemBuilder: (context, index) {
+                // Listedeki sıradaki ürünü alır
+                final urun = _urunler[index];
+
+                // Ürün kartının altına boşluk ekler
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+
+                  // Ürün bilgilerini UrunKarti widget'ına gönderir
+                  child: UrunKarti(urun: urun),
+                );
+              },
+            ),
     );
-    // build metodu kapanış parantezi
   }
 }
