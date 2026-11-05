@@ -48,7 +48,7 @@ class FcmBildirimServisi {
     );
 
     // Yerel bildirim eklentisini hazırlanan ayarlarla başlatır.
-    await _localPlugin.initialize(initSettings);
+    await _localPlugin.initialize(settings: initSettings);
 
     // Uygulama ön plandayken gelen FCM bildirimlerini dinler.
     FirebaseMessaging.onMessage.listen((message) {
@@ -61,6 +61,15 @@ class FcmBildirimServisi {
 
     // Uygulama arka plandayken gelen bildirimleri karşılayacak fonksiyonu kaydeder.
     FirebaseMessaging.onBackgroundMessage(fcmBackgroundHandler);
+  }
+
+  //tokenAl fonksiyonu
+  Future<String?> tokenAl() async {
+    try {
+      return await _fcm.getToken();
+    } catch (_) {
+      return null;
+    }
   }
 
   // Kullanıcının belirli bir bildirim konusuna abone olmasını sağlar.
@@ -106,18 +115,10 @@ class FcmBildirimServisi {
     // cihazda yerel bildirim oluşturur.
     await _localPlugin.show(
       // Her bildirim için kullanılacak kimlik numarasını belirler.
-      message.hashCode,
-
-      // Bildirimin başlığını alır.
-      // Başlık yoksa varsayılan olarak 'Yeni Bildirim' gösterir.
-      message.notification?.title ?? 'Yeni Bildirim',
-
-      // Bildirimin içeriğini alır.
-      // İçerik yoksa boş metin gösterir.
-      message.notification?.body ?? '',
-
-      // Bildirim için hazırlanan Android ve iOS ayarlarını kullanır.
-      details,
+      id: message.hashCode,
+      title: message.notification?.title ?? 'Yeni Bildirim',
+      body: message.notification?.body ?? '',
+      notificationDetails: details,
     );
   }
 }

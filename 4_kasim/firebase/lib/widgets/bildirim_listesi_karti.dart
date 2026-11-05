@@ -197,9 +197,35 @@ class BildirimListesiKarti extends StatelessWidget {
 
                     // Listedeki her bir bildirimin nasıl oluşturulacağını belirler.
                     itemBuilder: (context, index) {
-                      // Herhangi bir bildirim öğesi henüz oluşturulmamış.
-                      // Burada bildirimler[index] kullanılarak
-                      // ilgili bildirimin bilgileri ekrana yazdırılabilir.
+                      final b = bildirimler[index];
+                      return ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const CircleAvatar(
+                          backgroundColor: Color.fromARGB(0, 123, 238, 238),
+                          child: Icon(
+                            Icons.mark_email_read_outlined,
+                            color: Color.fromARGB(0, 113, 25, 25),
+                            size: 20,
+                          ),
+                        ),
+                        title: Text(
+                          b.baslik,
+                          style: const TextStyle(
+                            //const sistem derlenirken çalışır ve değişmez
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        subtitle: Text(b.icerik),
+                        trailing: Text(
+                          '${b.tarih.hour.toString().padLeft(2, '0')}:${b.tarih.minute.toString().padLeft(2, '0')}',
+                          //saati çekiyor ve başına sıfır ekliyor
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+                      );
                     },
                   ),
           ],
