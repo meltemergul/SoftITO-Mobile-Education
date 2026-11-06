@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555523214440",
+    "project_id": "fg-1882",
+    "storage_bucket": "fg-1882.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555523214440:android:eeb1ab5ad248a662baffdd",
+        "android_client_info": {
+          "package_name": "com.example.storage_fcm_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeW2RxutBdY2KmeVrkVTx2esH5YcpUlZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
